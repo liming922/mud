@@ -1,17 +1,5 @@
-// ==UserScript==
-// @name         hehehaxi
-// @namespace    https://abc.cn/
-// @version      2.0.3
-// @description  MUD辅助脚本
-// @author       gamekiller
-// @match        http://*.hero123.cn/*
-// @grant        none
-// ==/UserScript== 520  620  720
-//
-const text = (<><![CDATA[
-console.log("tampermonkey loaded.");
-var node = document.body;
 
+var node = document.body;
 
 // 自定义的css
 var alertCssText = ".swal-input-bottom{margin-bottom:0px !important;font-size:1rem !important;}.swal-btn-size{font-size:0.8rem !important;}"
@@ -12877,5 +12865,3 @@ function showTip() {
             setStore(verTip, a80_ver);
         })
 }
-]]></>).toString();
-window.eval(text);
