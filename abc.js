@@ -1,6 +1,6 @@
 // ==UserScript==
-// @name         mytest
-// @namespace    https://abc.cn/yujian
+// @name         hehehaxi
+// @namespace    https://abc.cn/
 // @version      2.0.3
 // @description  MUD辅助脚本
 // @author       gamekiller
