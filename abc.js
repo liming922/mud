@@ -1,5 +1,4 @@
 var node = document.body;
-
 // 自定义的css
 var alertCssText = ".swal-input-bottom{margin-bottom:0px !important;font-size:1rem !important;}.swal-btn-size{font-size:0.8rem !important;}"
 var alertCss = document.createElement("style");
@@ -10,36 +9,17 @@ node.appendChild(alertCss);
 // 引用第三方插件
 var alertJs = document.createElement("script");
 alertJs.type = "text/javascript";
-//alertJs.src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js"
-//alertJs.src = "http://localhost:9999/sweetalert.js";
-alertJs.src = "http://lib10.cn/yujian/sweetalert2.all.min.js"
+alertJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@2.0/sweetalert2.all.min.js"
 node.appendChild(alertJs);
-
 
 function isDev() {
   return false
 }
-// 引用js插件
-// var yujianMin = document.createElement("script");
-// yujianMin.type = "text/javascript";
-//yujianMin.src = app_domain + "/yujian/yujian-min-2.0.js?v=" + a80_ver + "&u=" + auth80 + "&" + gameAuth;
-// yujianMin.src ="http://localhost:9999/yujian-min-2.0.js";
-// node.appendChild(yujianMin);
-
 
 var ieEncode = document.createElement("script");
 ieEncode.type = "text/javascript";
-//ieEncode.src = app_domain + "/yujian/ie-encoding.min.js";
-ieEncode.src ="http://lib10.cn/yujian/ie-encoding.min.js";
+ieEncode.src ="https://cdn.jsdelivr.net/gh/liming922/mud@2.0/ie-encoding.min.js";
 node.appendChild(ieEncode);
-
-// 引用wasm插件
-var yujianWasmRes = document.createElement("script");
-yujianWasmRes.type = "text/javascript";
-//yujianWasmRes.src = app_domain + "/yujian/wasm-main-2.0.js?v=" + a80_ver + "&u=" + auth80 + "&" + gameAuth;
-yujianWasmRes.src ="http://localhost:9999/wasm-main-2.0.js";
-// node.appendChild(yujianWasmRes);
-
 
 
 function getBtn(name){
@@ -83,8 +63,9 @@ function createLeftButton(btnName,func){
     myBtn.name ="magicbtnLeft";
     myBtn.innerText = btnName;
     myBtn.style.position = 'absolute';
-    myBtn.style.left = '10px';
-    myBtn.style.top = currentPosLeft + 'px';
+    var offset = Math.floor(currentPosLeft / 300) * 70
+    myBtn.style.left = 10 + offset +'px';
+    myBtn.style.top = (currentPosLeft % 300) + offset + 'px';
     currentPosLeft = currentPosLeft + delta;
     myBtn.style.width = buttonWidth-1;
     myBtn.style.height = buttonHeight-1;
@@ -106,6 +87,7 @@ createRightButton('全图找人',function(){findMenFunc()});
 
 createLeftButton('藏左钮',hiddenLeftBtn);
 createLeftButton('去签到',function(){checkinFunc(0);});
+createLeftButton('开日常',function(){yijianrichangFunc()});
 createLeftButton('开答题',answerQuestionsFunc);
 createLeftButton('听游侠',listenYXFunc);
 createLeftButton('听潜龙',listenQLZYFunc);
@@ -113,21 +95,22 @@ createLeftButton('开帮本',killshenshouTargetFunc);
 createLeftButton('五秘境',yishiwuFunc);
 createLeftButton('战斗装',battleEquip);
 createLeftButton('悟性装',wuxingEquip);
-createLeftButton('持续突破',function(){autoTrainFunc(1)});
+createLeftButton('武功突破',function(){quickTupo()});
 createLeftButton('运行代码',function(){runCode()});
 createLeftButton('获取代码',function(){getCodeFunc()});
-createLeftButton('本五',function(){autoFb5()});
-createLeftButton('本六',function(){autoFb6()});
-createLeftButton('本七',function(){autoFb7()});
+createLeftButton('副本表',function(){fubenlist()});
 createLeftButton('冥庄',function(){mingzhuangFunc()});
+createLeftButton('后院',function(){mzhuoyuanFunc()});
+createLeftButton('惩奸除恶',function(){yyxFunc(0)});
+createLeftButton('讨好老祖',function(){xdysFunc(0)});
+createLeftButton('称号飞',function(){rankgoto()});
+createLeftButton('背包整理',function(){orderPackageFunc()});
 
 
-// window.getMyBtn("开步玄").style.visibility="visible";
-// window.getMyBtn("显右").style.visibility="visible";
+
+
 
 function hiddenRightBtn(){
-//     window.getMyBtn("显左").style.visibility="visible";
-//     window.getMyBtn("显右").style.visibility="visible";
     var btn = getMenu("藏右钮");
     if (btn.innerHTML === "藏右钮") {
         [...document.getElementsByName("magicbtnRight")].forEach(x => x.style.visibility="hidden");
@@ -153,6 +136,44 @@ function hiddenLeftBtn(){
         [...document.getElementsByName("magicbtnLeft")].forEach(x => x.style.visibility="visible");
         btn.innerText = "藏左钮";
     }
+}
+
+function getGuozi(){
+    var i;
+    for (i = 0; i < 25; i++) {
+        clickButton('open jhqx '+ i, 0);
+    }
+}
+
+function quickTupo(){
+      WriteToScreen(
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup')\">打开普通加速</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup2')\">打开高级加速</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup3')\">打开超级加速</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup3_1')\">打开通天加速</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup4_1')\">打开舍利加速</a>" +
+        "");
+}
+function fubenlist(){
+      WriteToScreen(
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb1()\">副本一</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb3()\">副本三</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb4()\">副本四</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb5()\">副本五</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb6()\">副本六</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb7()\">副本七</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb8()\">副本八</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb9()\">副本九</a>" +
+        "");
+}
+function rankgoto(){
+      WriteToScreen(
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 235')\">魔皇殿</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 220')\"> 阎王十殿</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 233')\">藏典塔</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 209')\"> 铸剑洞</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 230')\">无湘楼</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 203')\"> 越女剑楼</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 222')\">葬剑谷</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 193')\"> 红螺寺</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 221')\">霹雳堂</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 192')\"> 通天塔</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 194')\">格斗城</a>");
 }
 
 // 窗口跨域
@@ -207,7 +228,7 @@ console.log("plugin loaded");
 // import yujian-80-head.js
 //
 // 发布开关
-var debug = "1";
+var debug = "0";
 // 日志开关
 function Log(...args) {
     if (debug == "1") {
@@ -910,6 +931,7 @@ function orderPkg(b) {
     var newItems = [];
     var oldItems = [];
     var oldStores = [];
+    Log("old", b);
     for (var i in b.elements) {
         var key = b.elements[i].key;
         if (!key) continue
@@ -951,7 +973,9 @@ function orderPkg(b) {
     var orderByName = function(a, b) {
         return a.name.localeCompare(b.name);
     };
+    Log("old", oldItems);
     oldItems.sort(orderByName);
+    Log("new", oldItems);
     for (var i = oldItems.length - 1; i > -1; i--) {
         b.put("items" + (i + 1 + newItems.length), oldItems[i].value);
     }
@@ -959,6 +983,7 @@ function orderPkg(b) {
     for (var i = oldStores.length - 1; i > -1; i--) {
         b.put("stores" + (i + 1), oldStores[i].value);
     }
+    Log("new", b);
 }
 
 function orderPackageFunc() {
@@ -5100,15 +5125,15 @@ function addYijianrichangListen() {
 }
 
 function stopYijianrichang() {
-    var btn = getBtn("一键日常");
+    var btn = getMenu("开日常");
     yijianrichangKill = false;
     delDispatchListener("yijianrichang");
-    btn.innerHTML = "一键日常";
+    btn.innerHTML = "开日常";
 }
 
 function yijianrichangFunc() {
-    var btn = getBtn("一键日常");
-    if (btn.innerHTML == "停止日常") {
+    var btn = getMenu("开日常");
+    if (btn.innerHTML == "停日常") {
         stopYijianrichang();
         return;
     }
@@ -5118,7 +5143,7 @@ function yijianrichangFunc() {
           "请输入已战斗次数", yijianrichangIdx,
           function(input) {
         yijianrichangIdx = parseInt(input.value);
-        btn.innerHTML = "停止日常"
+        btn.innerHTML = "停日常"
         addYijianrichangListen();
         Confirm("主动叫杀?请单人时使用", function() {
             yijianrichangKill = true;
@@ -10137,7 +10162,8 @@ function parseQxList(msg) {
         // 取名字
         var arr0 = node.childNodes[0].innerHTML.split("href;0;");
         var names = arr0[1].split("(");
-        var name = dispatchChineseMsg(names[0]);
+        var tmp = names[0].split("\u0003");
+        var name = dispatchChineseMsg(tmp[1]);
         // 取亲密数
         var friendNum = 0;
         if (names.length > 1) {
