@@ -93,6 +93,7 @@ createLeftButton('听游侠',listenYXFunc);
 createLeftButton('听潜龙',listenQLZYFunc);
 createLeftButton('开帮本',killshenshouTargetFunc);
 createLeftButton('五秘境',yishiwuFunc);
+createLeftButton('领果子',getGuozi);
 createLeftButton('战斗装',battleEquip);
 createLeftButton('悟性装',wuxingEquip);
 createLeftButton('武功突破',function(){quickTupo()});
@@ -140,9 +141,11 @@ function hiddenLeftBtn(){
 
 function getGuozi(){
     var i;
+    var cmd='';
     for (i = 0; i < 25; i++) {
-        clickButton('open jhqx '+ i, 0);
+        cmd=cmd+'open jhqx '+ i+';';
     }
+    go(cmd);
 }
 
 function quickTupo(){
