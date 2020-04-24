@@ -1,15 +1,15 @@
 // ==UserScript==
-// @name         vip
+// @name         freedom
 // @namespace    https://xixi.cn/yujian
 // @version      4.22
-// @description  遇剑MUD辅助脚本
-// @author       游戏爱好者
+// @description  MUD辅助脚本
+// @author       gamekiller
 // @match        http://*.hero123.cn/*
 // @grant        none
 // ==/UserScript== 520  620  720
 console.log(document.domain)
 var verJs = document.createElement("script");
 verJs.type = "text/javascript";
-verJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@1.0/abc.js";
+verJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@2.0/abc.js";
 var node = document.getElementsByTagName('head')[0];
 node.appendChild(verJs);
