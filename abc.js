@@ -79,6 +79,7 @@ createRightButton('切阵法三',setAutoBattle3Func);
 createRightButton('自动阵',autoBattleFunc);
 createRightButton('我破招',fightAllFunc);
 createRightButton('开步玄',autoBuxuanSkillFunc);
+createRightButton('开白首',autoBsSkillFunc);
 createRightButton('自动血',autoCureFunc);
 createRightButton('开跟杀',followKillFunc);
 createRightButton('开循环杀',killUserTargetFunc);
@@ -95,6 +96,7 @@ createLeftButton('开悬红',function(){autoXHFunc(0)});
 createLeftButton('开帮本',killshenshouTargetFunc);
 createLeftButton('五秘境',yishiwuFunc);
 createLeftButton('领果子',getGuozi);
+createLeftButton('清谜题',function(){go('auto_tasks cancel')};
 createLeftButton('战斗装',battleEquip);
 createLeftButton('悟性装',wuxingEquip);
 createLeftButton('武功突破',function(){quickTupo()});
@@ -242,7 +244,7 @@ function MyNavigatorFunc(){
         types:'findPath',
         npc:ll_targetName,
         userID:g_obj_map.get("msg_attrs").get('id'),
-        qu:g_area_id,
+        qu:'21',
     }
     _$(url, param, function(data){
         var npcdata = data.data;
@@ -6230,7 +6232,7 @@ function XHMon(b, type, subtype, msg) {
                 jh: npcdata[i].place,
                 loc: npcdata[i].short_name,
                 name: npcdata[i].npc,
-                way: npcdata[i].path,
+                way: npcdata[i].path.replace(/,/g, ";"),
                 desc: xhDesc,
             });
         }
@@ -6317,7 +6319,7 @@ var autoXHOn = 0;
 function autoXHFunc(restore) {
     var xhBtn = getMenu('开悬红');
     if (xhBtn.innerHTML == "开悬红") {
-        autoXHOn = 0;
+        autoXHOn = 1;
         addNoticeMsgListener("listenXHnotice", "悬红榜", XHMon);
         xhBtn.innerText = '停悬红';
     } else {
@@ -12992,9 +12994,9 @@ function develop() {
     setStore(buxuanSkillKey, "2|步玄七诀");
     setStore("findMen_keys", "1|花不为");
     setStore(autoBattleSkillKey,autoBattleSkillKey1);
-    setStore(autoCureSkillKey,"道种心魔经,30,道种心魔经,30");
+    setStore(autoCureSkillKey,"白首太玄经,30,白首太玄经,30");
     setStore(autoBattleSkillKey1,"3,神剑慧芒");
-    setStore(autoBattleSkillKey2,"6,神剑慧芒,千影百伤棍");
+    setStore(autoBattleSkillKey2,"6,燎原百破,千影百伤棍");
     setStore(autoBattleSkillKey3,"3,千影百伤棍");
 })();
 
