@@ -96,7 +96,7 @@ createLeftButton('开悬红',function(){autoXHFunc(0)});
 createLeftButton('开帮本',killshenshouTargetFunc);
 createLeftButton('五秘境',yishiwuFunc);
 createLeftButton('领果子',getGuozi);
-createLeftButton('清谜题',function(){go('auto_tasks cancel')};
+createLeftButton('清谜题',function(){go('auto_tasks cancel')});
 createLeftButton('战斗装',battleEquip);
 createLeftButton('悟性装',wuxingEquip);
 createLeftButton('武功突破',function(){quickTupo()});
