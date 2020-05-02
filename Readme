@@ -10,6 +10,6 @@
 console.log(document.domain)
 var verJs = document.createElement("script");
 verJs.type = "text/javascript";
-verJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@5.0/abc.js";
+verJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@6.0/abc.js";
 var node = document.getElementsByTagName('head')[0];
 node.appendChild(verJs);
