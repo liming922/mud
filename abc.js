@@ -170,12 +170,12 @@ function fubenlist(){
 }
 function rankgoto(){
     WriteToScreen(
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 235')\">魔皇殿</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 220')\"> 阎王十殿</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 233')\">藏典塔</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 209')\"> 铸剑洞</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 230')\">无湘楼</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 203')\"> 越女剑楼</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 222')\">葬剑谷</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 193')\"> 红螺寺</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 221')\">霹雳堂</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 192')\"> 通天塔</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 194')\">格斗城</a>");
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 236')\">魔皇殿</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 221')\"> 阎王十殿</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 234')\">藏典塔</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 210')\"> 铸剑洞</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 231')\">无湘楼</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 204')\"> 越女剑楼</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 223')\">葬剑谷</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 194')\"> 红螺寺</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 222')\">霹雳堂</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 193')\"> 通天塔</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 195')\">格斗城</a>");
 }
 
 //
@@ -2170,11 +2170,11 @@ function checkinFunc(idx) {
             //                 go('vip finish_fb dulongzhai;vip finish_fb dulongzhai;vip finish_fb junying;vip finish_fb junying;vip finish_fb beidou;vip finish_fb beidou;vip finish_fb youling;vip finish_fb youling;vip finish_fb siyu;vip finish_fb changleweiyang;vip finish_fb heishuihuangling;vip finish_fb jiandangfenglingdu;vip finish_fb tianshanlongxue', next); //副本扫荡
             //             }, next);
             //             return;
-            //         case 8:
-            //             AutoCancel("是否银两上香？", 10 * 1000, function() {
-            //                 go("home;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx", next); // 上香
-            //             }, next);
-            //             return;
+        case 8:
+            AutoCancel("是否金锭上香？", 10 * 1000, function() {
+                go("home;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx", next); // 上香
+            }, next);
+            return;
             //         case 9:
             //             AutoCancel("是否元宝上香?", 10 * 1000, function() {
             //                 go("clan incense cx;clan incense cx;clan incense cx;clan incense cx", next); // 上香
@@ -6216,8 +6216,8 @@ function XHMon(b, type, subtype, msg) {
         types:'findNpc',
         place: jh ,
         info: xhDesc,
-        userID:g_obj_map.get("msg_attrs").get('id'),
-        qu:g_area_id,
+        userID:g_obj_map.get("msg_attrs").get('id'), //6948530 , 今多何多
+        qu:'21',
     }
     _$(url, param, function(data){
         console.log("悬红描述数据", data);
