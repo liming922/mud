@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         freedom
 // @namespace    https://xixi.cn/yujian
-// @version      4.22
+// @version      4.23
 // @description  MUD辅助脚本
 // @author       gamekiller
 // @match        http://*.hero123.cn/*
@@ -10,6 +10,6 @@
 console.log(document.domain)
 var verJs = document.createElement("script");
 verJs.type = "text/javascript";
-verJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@2.0/abc.js";
+verJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@6.0/abc.js";
 var node = document.getElementsByTagName('head')[0];
 node.appendChild(verJs);
