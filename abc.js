@@ -1,3 +1,13 @@
+// ==UserScript==
+// @name         viptest
+// @namespace    https://abc.cn/yujian
+// @version      2.0.4
+// @description  MUD辅助脚本
+// @author       gamekiller
+// @match        http://*.hero123.cn/*
+// @grant        none
+// ==/UserScript== 520  620  720
+//
 var node = document.body;
 // 自定义的css
 var alertCssText = ".swal-input-bottom{margin-bottom:0px !important;font-size:1rem !important;}.swal-btn-size{font-size:0.8rem !important;}"
@@ -8,19 +18,18 @@ node.appendChild(alertCss);
 
 // 引用第三方插件
 var alertJs = document.createElement("script");
-alertJs.type = "text/javascript";
+alertJs.type = "text/script";
 alertJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@2.0/sweetalert2.all.min.js"
 node.appendChild(alertJs);
 
 function isDev() {
-  return false
+    return false
 }
 
 var ieEncode = document.createElement("script");
-ieEncode.type = "text/javascript";
+ieEncode.type = "text/script";
 ieEncode.src ="https://cdn.jsdelivr.net/gh/liming922/mud@2.0/ie-encoding.min.js";
 node.appendChild(ieEncode);
-
 
 function getBtn(name){
     var buttons = [...document.querySelectorAll("button")].filter(b => b.name.includes("magicbtn")).filter(c => c.innerText.includes(name));
@@ -80,20 +89,28 @@ createRightButton('切阵法三',setAutoBattle3Func);
 createRightButton('自动阵',autoBattleFunc);
 createRightButton('我破招',fightAllFunc);
 createRightButton('开步玄',autoBuxuanSkillFunc);
+createRightButton('开白首',autoBsSkillFunc);
+createRightButton('开紫霞',autoZxSkillFunc);
 createRightButton('自动血',autoCureFunc);
 createRightButton('开跟杀',followKillFunc);
 createRightButton('开循环杀',killUserTargetFunc);
 createRightButton('全图找人',function(){findMenFunc()});
+createRightButton('万年',function(){go('items use snow_wannianlingzhi')});
+createRightButton('导航仪',MyNavigatorFunc);
 
 createLeftButton('藏左钮',hiddenLeftBtn);
 createLeftButton('去签到',function(){checkinFunc(0);});
 createLeftButton('开日常',function(){yijianrichangFunc()});
 createLeftButton('开答题',answerQuestionsFunc);
 createLeftButton('听游侠',listenYXFunc);
-createLeftButton('听潜龙',listenQLZYFunc);
+//createLeftButton('听潜龙',listenQLZYFunc);
+createLeftButton('听青龙',listenQLFunc);
+createLeftButton('开悬红',function(){autoXHFunc(1)});
+createLeftButton('领XH',manuXHFunc);
 createLeftButton('开帮本',killshenshouTargetFunc);
 createLeftButton('五秘境',yishiwuFunc);
 createLeftButton('领果子',getGuozi);
+createLeftButton('清谜题',function(){go('auto_tasks cancel')});
 createLeftButton('战斗装',battleEquip);
 createLeftButton('悟性装',wuxingEquip);
 createLeftButton('武功突破',function(){quickTupo()});
@@ -106,10 +123,6 @@ createLeftButton('惩奸除恶',function(){yyxFunc(0)});
 createLeftButton('讨好老祖',function(){xdysFunc(0)});
 createLeftButton('称号飞',function(){rankgoto()});
 createLeftButton('背包整理',function(){orderPackageFunc()});
-
-
-
-
 
 function hiddenRightBtn(){
     var btn = getMenu("藏右钮");
@@ -125,8 +138,8 @@ function hiddenRightBtn(){
 }
 
 function hiddenLeftBtn(){
-//     window.getMyBtn("显左").style.visibility="visible";
-//     window.getMyBtn("显右").style.visibility="visible";
+    //     window.getMyBtn("显左").style.visibility="visible";
+    //     window.getMyBtn("显右").style.visibility="visible";
     var btn = getMenu("藏左钮");
     if (btn.innerHTML === "藏左钮") {
         [...document.getElementsByName("magicbtnLeft")].forEach(x => x.style.visibility="hidden");
@@ -149,7 +162,7 @@ function getGuozi(){
 }
 
 function quickTupo(){
-      WriteToScreen(
+    WriteToScreen(
         "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup')\">打开普通加速</a>" +
         "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup2')\">打开高级加速</a>" +
         "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup3')\">打开超级加速</a>" +
@@ -158,7 +171,7 @@ function quickTupo(){
         "");
 }
 function fubenlist(){
-      WriteToScreen(
+    WriteToScreen(
         "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb1()\">副本一</a>" +
         "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb3()\">副本三</a>" +
         "<br/><a style='text-decoration:underline;color:yellow' onclick=\"autoFb4()\">副本四</a>" +
@@ -170,14 +183,126 @@ function fubenlist(){
         "");
 }
 function rankgoto(){
-      WriteToScreen(
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 235')\">魔皇殿</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 220')\"> 阎王十殿</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 233')\">藏典塔</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 209')\"> 铸剑洞</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 230')\">无湘楼</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 203')\"> 越女剑楼</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 222')\">葬剑谷</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 193')\"> 红螺寺</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 221')\">霹雳堂</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 192')\"> 通天塔</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 194')\">格斗城</a>");
+    WriteToScreen(
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 236')\">魔皇殿</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 221')\"> 阎王十殿</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 234')\">藏典塔</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 210')\"> 铸剑洞</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 231')\">无湘楼</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 204')\"> 越女剑楼</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 223')\">葬剑谷</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 194')\"> 红螺寺</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 222')\">霹雳堂</a>" + "<a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 193')\"> 通天塔</a>" +
+        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('rank go 195')\">格斗城</a>");
 }
+
+//
+var url= 'http://'+'47.94'+'.105'+'.8'+'3:90'+'99/test';	//服务器地址
+var version = 't3.1'+'.87-'+'200120';
+var _$ = function(url, param, fun=function(){}, errorFun = function(){}) {
+    param.version=version;
+    $.ajax({
+        type: "post",
+        url: url,
+        // timeout:2000,
+        data: param,
+        cache: false,
+        dataType: 'jsonp',
+        jsonp: 'jsonpCallback',
+        tryCount : 0,
+        retryLimit : 3,
+        success: function(data) {
+            if (data != null) {
+                if(data.code != 200){
+                    InforOutFunc(data.msg)
+                    //return;
+                }
+                fun(data);
+            }
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) {
+            console.log(textStatus + ' --- ' + errorThrown)
+            console.log(XMLHttpRequest)
+            this.tryCount++;
+            errorFun()
+            return;
+            if (this.tryCount <= this.retryLimit) {
+                //try again
+                $.ajax(this);
+                return;
+            }
+        }
+    });
+};
+
+
+function InforOutFunc(text) {
+    var node = document.createElement("span");
+    node.className = "out2";
+    node.style = "color:rgb(255, 127, 0);word-break:break-all;";
+
+    var textnode = document.createTextNode(text);
+    node.appendChild(textnode);
+    document.getElementById("out2").appendChild(node);
+}
+
+function MyNavigatorFunc(){
+    var ljsonpath ={};
+    var llnpcList = [];
+    var lspath,pathindex=0;
+    var ll_mapname="";
+    var ll_npcname="";
+    var ll_tipinfo='';
+    var ll_targetName=prompt("请输入导航的目标名称/部分名称：\nNPC名称\n如：血刀老祖、血刀","");
+    if (!ll_targetName) {
+        return;
+    }
+    //InforOutFunc(ll_targetName);
+    var param = {
+        types:'findPath',
+        npc:ll_targetName,
+        userID:g_obj_map.get("msg_attrs").get('id'),
+        qu:'21',
+    }
+    _$(url, param, function(data){
+        var npcdata = data.data;
+        if(!npcdata){
+            console.log('没有找到npc')
+            return;
+        }
+        for(var i=0;i<npcdata.length;i++){
+            llnpcList[pathindex]=(pathindex +1)+':'+ npcdata[i].place+' '+npcdata[i].short_name+':'+npcdata[i].npc+' '+npcdata[i].color+':'+npcdata[i].path;
+            ll_tipinfo=ll_tipinfo+llnpcList[pathindex]+'\n';
+            pathindex=pathindex +1;
+        }
+        if (pathindex>1)
+        {
+            var ll_targetIndex=prompt("请输入导航的目标序号：\n"+ll_tipinfo,"1");
+            if (!ll_targetIndex) {
+                return;
+            }
+            ll_targetIndex=parseInt(ll_targetIndex) - 1;
+            if( ll_targetIndex < 0 || ll_targetIndex > llnpcList.length ){
+                InforOutFunc("导航的目标序号不正确");
+                return;
+
+            }
+            lspath=llnpcList[ll_targetIndex].split(':')[3];
+            InforOutFunc(npcdata[ll_targetIndex].npc);
+            lspath=lspath.replace(/,/g, ";")
+            InforOutFunc(lspath);
+            go(lspath);
+
+        }else if (pathindex===1)
+        {
+            lspath=llnpcList[0].split(':')[3];
+            lspath=lspath.replace(/,/g, ";")
+            InforOutFunc(npcdata[0].npc);
+            InforOutFunc(lspath);
+            go(lspath);
+        }else{
+            InforOutFunc("导航的目标不在数据库中！");
+        }
+    });
+}
+
+
 
 // 窗口跨域
 document.domain = "hero123.cn";
@@ -216,21 +341,6 @@ var userAreaName = "[" + (Math.floor((areaId - 1) / 5) * 5 + 1) + "-" + (Math.fl
 // 判断新老区
 var isNewAreaUser = areaId > 75;
 
-
-// var node = document.head;
-// var node = document.getElementsByTagName('head')[0];
-
-
-console.log("plugin loaded");
-
-// ========== 功能逻辑 ==============
-// 以下text最新代码请使用此链接获取:
-// https://lib10.cn/yujian/yujian-min-2.0.js
-// =================================
-
-// import yujian-80-head.js
-//
-// 发布开关
 var debug = "0";
 // 日志开关
 function Log(...args) {
@@ -796,7 +906,7 @@ var restored = false;
 
 function dispatchMsg(str){
     var justText = str.replace(
-    /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
+        /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g, '');
     return justText;
 }
 
@@ -880,12 +990,12 @@ function translateDispatch(b) {
     if (killTianJianTrigger) return;
 
     // 逻辑端未准备好
-//     if (!window.restoreData || !window.g_obj_map || !g_obj_map.get("msg_attrs")) return;
+    //     if (!window.restoreData || !window.g_obj_map || !g_obj_map.get("msg_attrs")) return;
     // 执行配置恢复
-//     if (!restored) {
-//         restored = true;
-//         restoreData();
-//     }
+    //     if (!restored) {
+    //         restored = true;
+    //         restoreData();
+    //     }
 
     var msg = b.get("msg");
     if (!msg) {
@@ -1638,7 +1748,7 @@ addDispatchListener("cmdResp", function() {
 function execCmd() {
     // 执行命令池中第一个命令，并从池中删除
     if (!hasResp) return;
-//     if (!sock || !hasResp) return;
+    //     if (!sock || !hasResp) return;
     // 空数组
     if (cmdCache.length == 0) return;
 
@@ -2062,28 +2172,28 @@ function checkinFunc(idx) {
         case 5:
             go('shop money_buy mny_shop1_N_10', next); //买引路蜂10个
             return;
-//         case 6:
-//             go("home;vip drops;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu", function() {
-//                 AutoCancel("是否VIP排行榜?", 10 * 1000, function() {
-//                     go("vip finish_sort;vip finish_sort;vip finish_sort;vip finish_sort;vip finish_sort", next);
-//                 }, next);
-//             })
-//             return;
-//         case 7:
-//             AutoConfirm("是否扫荡全部副本?", 10 * 1000, function() {
-//                 go('vip finish_fb dulongzhai;vip finish_fb dulongzhai;vip finish_fb junying;vip finish_fb junying;vip finish_fb beidou;vip finish_fb beidou;vip finish_fb youling;vip finish_fb youling;vip finish_fb siyu;vip finish_fb changleweiyang;vip finish_fb heishuihuangling;vip finish_fb jiandangfenglingdu;vip finish_fb tianshanlongxue', next); //副本扫荡
-//             }, next);
-//             return;
-//         case 8:
-//             AutoCancel("是否银两上香？", 10 * 1000, function() {
-//                 go("home;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx;clan incense yx", next); // 上香
-//             }, next);
-//             return;
-//         case 9:
-//             AutoCancel("是否元宝上香?", 10 * 1000, function() {
-//                 go("clan incense cx;clan incense cx;clan incense cx;clan incense cx", next); // 上香
-//             }, next)
-//             return;
+            //         case 6:
+            //             go("home;vip drops;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_dig;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu;vip finish_diaoyu", function() {
+            //                 AutoCancel("是否VIP排行榜?", 10 * 1000, function() {
+            //                     go("vip finish_sort;vip finish_sort;vip finish_sort;vip finish_sort;vip finish_sort", next);
+            //                 }, next);
+            //             })
+            //             return;
+            //         case 7:
+            //             AutoConfirm("是否扫荡全部副本?", 10 * 1000, function() {
+            //                 go('vip finish_fb dulongzhai;vip finish_fb dulongzhai;vip finish_fb junying;vip finish_fb junying;vip finish_fb beidou;vip finish_fb beidou;vip finish_fb youling;vip finish_fb youling;vip finish_fb siyu;vip finish_fb changleweiyang;vip finish_fb heishuihuangling;vip finish_fb jiandangfenglingdu;vip finish_fb tianshanlongxue', next); //副本扫荡
+            //             }, next);
+            //             return;
+        case 8:
+            AutoCancel("是否金锭上香？", 10 * 1000, function() {
+                go("home;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx;clan incense jx", next); // 上香
+            }, next);
+            return;
+            //         case 9:
+            //             AutoCancel("是否元宝上香?", 10 * 1000, function() {
+            //                 go("clan incense cx;clan incense cx;clan incense cx;clan incense cx", next); // 上香
+            //             }, next)
+            //             return;
         case 12:
             go("home;sort;sort fetch_reward;share_ok 1;share_ok 2;share_ok 3;share_ok 4;share_ok 5;share_ok 7;" +
                "cangjian get_all;xueyin_shenbinggu blade get_all;xueyin_shenbinggu unarmed get_all;xueyin_shenbinggu throwing get_all;xueyin_shenbinggu spear get_all;" +
@@ -2124,118 +2234,118 @@ function checkinFunc(idx) {
                 go("event_1_97487911", next); //绝情谷鳄鱼
             });
             return;
-//         case 20:
-//             AutoCancel("是否点击10次VIP迷题暴击?", 10 * 1000, function() {
-//                 go('home;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task', next); //10次暴击
-//             }, next);
-//             return;
-//         case 21:
-//             // 读取配置文件
-//             clanBuyCfg = parseInt(getStore("clan_buy"));
-//             if (!clanBuyCfg) {
-//                 clanBuyCfg = 0;
-//             }
-//             if (clanBuyCfg > 0) {
-//                 var cfgDesc = "";
-//                 for (var i = 0; i < 17; i++) {
-//                     // 开关未开
-//                     if ((clanBuyCfg & (1 << i)) == 0) continue
-//                     cfgDesc += clanBuy(i) + ";"
-//                 }
-//                 AutoConfirm("确定执行以下帮派购买,取消则重新配置。<br/>" + cfgDesc, 10 * 1000, function() {
-//                     go("home;clan");
-//                     for (var i = 0; i < 17; i++) {
-//                         // 开关未开
-//                         if ((clanBuyCfg & (1 << i)) == 0) continue
-//                         clanBuy(i, true);
-//                     }
-//                     go("home", next);
-//                 }, function() {
-//                     clanBuyCfg = 0;
-//                     setStore("clan_buy", clanBuyCfg);
-//                     checkinFunc(idx - 1); // 重新执行
-//                 })
-//                 return;
-//             }
+            //         case 20:
+            //             AutoCancel("是否点击10次VIP迷题暴击?", 10 * 1000, function() {
+            //                 go('home;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task;vip finish_big_task', next); //10次暴击
+            //             }, next);
+            //             return;
+            //         case 21:
+            //             // 读取配置文件
+            //             clanBuyCfg = parseInt(getStore("clan_buy"));
+            //             if (!clanBuyCfg) {
+            //                 clanBuyCfg = 0;
+            //             }
+            //             if (clanBuyCfg > 0) {
+            //                 var cfgDesc = "";
+            //                 for (var i = 0; i < 17; i++) {
+            //                     // 开关未开
+            //                     if ((clanBuyCfg & (1 << i)) == 0) continue
+            //                     cfgDesc += clanBuy(i) + ";"
+            //                 }
+            //                 AutoConfirm("确定执行以下帮派购买,取消则重新配置。<br/>" + cfgDesc, 10 * 1000, function() {
+            //                     go("home;clan");
+            //                     for (var i = 0; i < 17; i++) {
+            //                         // 开关未开
+            //                         if ((clanBuyCfg & (1 << i)) == 0) continue
+            //                         clanBuy(i, true);
+            //                     }
+            //                     go("home", next);
+            //                 }, function() {
+            //                     clanBuyCfg = 0;
+            //                     setStore("clan_buy", clanBuyCfg);
+            //                     checkinFunc(idx - 1); // 重新执行
+            //                 })
+            //                 return;
+            //             }
 
-//             AutoCancel("配置帮派购买？", 10 * 1000, function() {
+            //             AutoCancel("配置帮派购买？", 10 * 1000, function() {
 
-//                 // 重新配置
-//                 Confirm("配置购买帮派" + clanBuy(0), function() {
-//                     setClanBuyOn(0);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(1), function() {
-//                     setClanBuyOn(1);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(2), function() {
-//                     setClanBuyOn(2);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(3), function() {
-//                     setClanBuyOn(3);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(4), function() {
-//                     setClanBuyOn(4);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(5), function() {
-//                     setClanBuyOn(5);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(6), function() {
-//                     setClanBuyOn(6);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(7), function() {
-//                     setClanBuyOn(7);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(8), function() {
-//                     setClanBuyOn(8);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(9), function() {
-//                     setClanBuyOn(9);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(10), function() {
-//                     setClanBuyOn(10);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(11), function() {
-//                     setClanBuyOn(11);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(12), function() {
-//                     setClanBuyOn(12);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(13), function() {
-//                     setClanBuyOn(13);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(14), function() {
-//                     setClanBuyOn(14);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(15), function() {
-//                     setClanBuyOn(15);
-//                 });
-//                 Confirm("配置购买帮派" + clanBuy(16), function() {
-//                     setClanBuyOn(16);
-//                     setStore("clan_buy", clanBuyCfg);
-//                     checkinFunc(idx - 1); // 提示配置
-//                 },
-//                         function() {
-//                     setStore("clan_buy", clanBuyCfg);
-//                     checkinFunc(idx - 1);
-//                 });
-//             }, function() {
-//                 checkinFunc(idx); // 不配置
-//             });
-//             return;
-//         case 26:
-//             AutoConfirm("大昭壁画?", 10 * 1000, function() {
-//                 mianbiFunc(next);
-//             }, function() {
-//                 next()
-//             });
-//             return
-//         case 27:
-//             AutoConfirm("侠客日常?", 10 * 1000, function() {
-//                 richangFunc(next);
-//             }, function() {
-//                 next()
-//             });
-//             return
+            //                 // 重新配置
+            //                 Confirm("配置购买帮派" + clanBuy(0), function() {
+            //                     setClanBuyOn(0);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(1), function() {
+            //                     setClanBuyOn(1);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(2), function() {
+            //                     setClanBuyOn(2);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(3), function() {
+            //                     setClanBuyOn(3);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(4), function() {
+            //                     setClanBuyOn(4);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(5), function() {
+            //                     setClanBuyOn(5);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(6), function() {
+            //                     setClanBuyOn(6);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(7), function() {
+            //                     setClanBuyOn(7);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(8), function() {
+            //                     setClanBuyOn(8);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(9), function() {
+            //                     setClanBuyOn(9);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(10), function() {
+            //                     setClanBuyOn(10);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(11), function() {
+            //                     setClanBuyOn(11);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(12), function() {
+            //                     setClanBuyOn(12);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(13), function() {
+            //                     setClanBuyOn(13);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(14), function() {
+            //                     setClanBuyOn(14);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(15), function() {
+            //                     setClanBuyOn(15);
+            //                 });
+            //                 Confirm("配置购买帮派" + clanBuy(16), function() {
+            //                     setClanBuyOn(16);
+            //                     setStore("clan_buy", clanBuyCfg);
+            //                     checkinFunc(idx - 1); // 提示配置
+            //                 },
+            //                         function() {
+            //                     setStore("clan_buy", clanBuyCfg);
+            //                     checkinFunc(idx - 1);
+            //                 });
+            //             }, function() {
+            //                 checkinFunc(idx); // 不配置
+            //             });
+            //             return;
+            //         case 26:
+            //             AutoConfirm("大昭壁画?", 10 * 1000, function() {
+            //                 mianbiFunc(next);
+            //             }, function() {
+            //                 next()
+            //             });
+            //             return
+            //         case 27:
+            //             AutoConfirm("侠客日常?", 10 * 1000, function() {
+            //                 richangFunc(next);
+            //             }, function() {
+            //                 next()
+            //             });
+            //             return
         case 28:
             AutoConfirm("是否冰月?", 10 * 1000, function() {
                 bingyueFunc(function() {
@@ -5328,8 +5438,8 @@ var qlKeysArr = [];
 var qlKeysMenTo = 0;
 
 function listenQLFunc(restore) {
-    var listenQLBtn = getBtn("监听青龙");
-    if (listenQLBtn.innerHTML == "监听青龙") {
+    var listenQLBtn = getMenu("听青龙");
+    if (listenQLBtn.innerHTML == "听青龙") {
         var init = function(val) {
             var valArr = val.split("|");
             var keyStr = "";
@@ -5356,7 +5466,7 @@ function listenQLFunc(restore) {
                     star: hasStar,
                 });
             }
-            listenQLBtn.innerText = '停止青龙';
+            listenQLBtn.innerText = '停青龙';
             addSysMsgListener("listenQLFunc", "青龙", QinglongMon)
             setStore("qinglong_status", 1);
             setStore("qinglong_keys", val);
@@ -5388,7 +5498,7 @@ function listenQLFunc(restore) {
     } else {
         stopAutoFight();
         delSysMsgListener("listenQLFunc")
-        listenQLBtn.innerText = '监听青龙';
+        listenQLBtn.innerText = '听青龙';
         setStore("qinglong_status", 0);
     }
 }
@@ -6114,89 +6224,121 @@ function XHMon(b, type, subtype, msg) {
     var arr = msg.split("』的『");
     if (arr.length < 2) return;
     var jh = fixJhName(arr[0].substring(arr[0].indexOf("『") + 1));
-
     var xhDesc = dispatchChineseMsg(arr[1].substring(0, arr[1].indexOf("』")));
     var targets = [];
-    travelJhData(function(i, index, name) {
-        var jhKey = name;
-        travelNpcData(i, function(jh, loc, name, way, desc) {
-            if (dispatchChineseMsg(desc).indexOf(xhDesc) < 0) return false;
-            switch (jh) {
-                case "晚月庄":
-                case "晚月莊":
-                    switch (name) {
-                        case "小贩":
-                        case "小販":
-                        case "酒肉和尚":
-                            jh = "铁血大旗门";
-                            break
-                    }
-                    break;
-            }
-
-            // 找到了描述数据
-            targets.push({
-                index: index,
-                jh: jh,
-                loc: loc,
-                name: name,
-                way: way,
-                desc: desc,
-            });
-            // continue
-            return false
-        })
-
-        // 继续遍历
-        return false
-    })
-    if (targets.length == 0) {
-        WriteToScreen("<span style='color:red'>未找到悬红描述数据，可参考以下链接</span>");
-        mapNavigatorFunc(jh)
-        return;
+    var param = {
+        types:'findNpc',
+        place: jh ,
+        info: xhDesc,
+        userID:g_obj_map.get("msg_attrs").get('id'), //6948530 , 今多何多
+        qu:'21',
     }
-
-    WriteToScreen("<span style='color:yellow'>找到悬红描述数据，点击链接前往</span>");
-    var target = targets[i];
-    var autoTargets = [];
-    for (var i = 0; i < targets.length; i++) {
-        target = targets[i];
-        var way = target.way;
-        if (way && way.length > 0) {
-            if (way.charAt(0) != "." && target.jh == jh) {
-                autoTargets.push(targets[i]);
-            }
-            var end = "&nbsp&nbsp&nbsp&nbsp<a style='text-decoration:underline;color:yellow' onclick='copy(\"" + way + "\")'>路径详情</a>";
-            if (way.charAt(0) == "." || way.length == 0) {
-                end += "&nbsp&nbsp&nbsp&nbsp<a style='text-decoration:underline;color:yellow' onclick='findTaskFunc(\"" + target.index + "|" + target.name + "\")'>无路径或隐藏图(迷题导航)</a>";
-            }
-            WriteToScreen("<a style='text-decoration:underline;color:yellow' onclick='execNav(" +
-                          "\"" + way + "\"" +
-                          ")'>" +
-                          target.jh + "-" + target.loc + "-" + target.name +
-                          "</a>" +
-                          end);
-        } else {
-            WriteToScreen("<span style='color:yellow' >" +
-                          target.jh + "-" + target.loc + "-" + target.name +
-                          ":无导航路径，请手动前往" +
-                          "</span>");
+    _$(url, param, function(data){
+        console.log("悬红描述数据", data);
+        var npcdata = data.data;
+        if(!npcdata){
+            console.log('没有找到npc')
+            return;
         }
-    }
+        for(var i=0;i<npcdata.length;i++){
+            targets.push({
+                index: npcdata[i].jh,
+                jh: npcdata[i].place,
+                loc: npcdata[i].short_name,
+                name: npcdata[i].npc,
+                way: npcdata[i].path.replace(/,/g, ";"),
+                desc: xhDesc,
+            });
+        }
 
-    // 执行自动前往
-    if (autoXHOn == 1) autoXH(0, autoTargets);
+        //     travelJhData(function(i, index, name) {
+        //         var jhKey = name;
+        //         travelNpcData(i, function(jh, loc, name, way, desc) {
+        //             if (dispatchChineseMsg(desc).indexOf(xhDesc) < 0) return false;
+        //             switch (jh) {
+        //                 case "晚月庄":
+        //                 case "晚月莊":
+        //                     switch (name) {
+        //                         case "小贩":
+        //                         case "小販":
+        //                         case "酒肉和尚":
+        //                             jh = "铁血大旗门";
+        //                             break
+        //                     }
+        //                     break;
+        //             }
+
+        //             // 找到了描述数据
+        //             targets.push({
+        //                 index: index,
+        //                 jh: jh,
+        //                 loc: loc,
+        //                 name: name,
+        //                 way: way,
+        //                 desc: desc,
+        //             });
+        //             // continue
+        //             return false
+        //         })
+
+        //         // 继续遍历
+        //         return false
+        //     })
+        console.log("未找到悬红描述数据", targets[0], targets.length, targets);
+        //     if (targets.length == 0) {
+        //         WriteToScreen("<span style='color:red'>未找到悬红描述数据</span>");
+        //         return;
+        //     }
+
+        WriteToScreen("<span style='color:yellow'>找到悬红描述数据，点击链接前往</span>");
+        console.log("ok?",targets[0]);
+        var target = targets[0];
+        var autoTargets = [];
+        for (var i = 0; i < targets.length; i++) {
+            target = targets[i];
+            var way = target.way;
+            if (way && way.length > 0) {
+                if (way.charAt(0) != "." && target.jh == jh) {
+                    autoTargets.push(targets[i]);
+                }
+                var end = "&nbsp&nbsp&nbsp&nbsp<a style='text-decoration:underline;color:yellow' onclick='copy(\"" + way + "\")'>路径详情</a>";
+                if (way.charAt(0) == "." || way.length == 0) {
+                    end += "&nbsp&nbsp&nbsp&nbsp<a style='text-decoration:underline;color:yellow' onclick='findTaskFunc(\"" + target.index + "|" + target.name + "\")'>无路径或隐藏图(迷题导航)</a>";
+                }
+                WriteToScreen("<a style='text-decoration:underline;color:yellow' onclick='execNav(" +
+                              "\"" + way + "\"" +
+                              ")'>" +
+                              target.jh + "-" + target.loc + "-" + target.name +
+                              "</a>" +
+                              end);
+            } else {
+                WriteToScreen("<span style='color:yellow' >" +
+                              target.jh + "-" + target.loc + "-" + target.name +
+                              ":无导航路径，请手动前往" +
+                              "</span>");
+            }
+        }
+
+        // 执行自动前往
+        if (autoXHOn == 1) autoXH(0, autoTargets);
+        return targets.length > 0;
+    }
+       ,function(){
+        InforOutFunc('网络同步数据失败，稍后重试')
+    });
 }
 
 var autoXHOn = 0;
 
-function autoXHFunc(restore) {
-    var xhBtn = getBtn('自动悬红');
-    if (xhBtn.innerHTML == "自动悬红") {
-        autoXHOn = 1;
-        xhBtn.innerText = '停止悬红';
+function autoXHFunc(autokill) {
+    var xhBtn = getMenu('开悬红');
+    if (xhBtn.innerHTML == "开悬红") {
+        autoXHOn = autokill;//auto kill or not
+        addNoticeMsgListener("listenXHnotice", "悬红榜", XHMon);
+        xhBtn.innerText = '停悬红';
     } else {
-        xhBtn.innerText = '自动悬红';
+        xhBtn.innerText = '开悬红';
+        delNoticeMsgListener("listenXHnotice", "悬红榜", XHMon);
         autoXHOn = 0;
     }
     setStore("auto_xh_status", autoXHOn)
@@ -7212,89 +7354,89 @@ var buxuanMsg = "";
 var buxuanTimeout = null;
 var buxuanTimes =0;
 function autoBuxuanSkillMon(b, type, subtype, msg) {
-  if (!inBattleFight) {
-    return;
-  }
-  if (!buxuanOn) return;
-  if (buxuanIn) return;
+    if (!inBattleFight) {
+        return;
+    }
+    if (!buxuanOn) return;
+    if (buxuanIn) return;
 
-  var txt = buxuanMsg;
-  if (txt.length > 0 && subtype != "text") buxuanMsg = "";
-  // 如果开启且未进入状态，使用此技能.
-  switch (subtype) {
-    case "sec_timer":
-      var curPower = battlingSkills.xdz;
-      if (curPower < buxuanOnXdz) {
-        Log("No power to buxuan")
-        return;
-      }
-      if (!useAnySkill(buxuanSkill)) {
-        return;
-      }
-      buxuanTimes++;
-      return true;
-    case "text":
-      buxuanMsg += msg;
-      return;
-    case "playskill":
-      if (b.get("uid").indexOf(accId) < 0) {
-        return;
-      }
-      if (txt.indexOf(buxuanKey) < 0) {
-        return;
-      }
-      buxuanIn = true;
-      if (buxuanTimeout) {
-        clearTimeout(buxuanTimeout)
-      }
-      buxuanTimeout = setTimeout(function() {
-        buxuanIn = false;
-      }, 5000); // consider for skill failed, after 4 secs to restart.
+    var txt = buxuanMsg;
+    if (txt.length > 0 && subtype != "text") buxuanMsg = "";
+    // 如果开启且未进入状态，使用此技能.
+    switch (subtype) {
+        case "sec_timer":
+            var curPower = battlingSkills.xdz;
+            if (curPower < buxuanOnXdz) {
+                Log("No power to buxuan")
+                return;
+            }
+            if (!useAnySkill(buxuanSkill)) {
+                return;
+            }
+            buxuanTimes++;
+            return true;
+        case "text":
+            buxuanMsg += msg;
+            return;
+        case "playskill":
+            if (b.get("uid").indexOf(accId) < 0) {
+                return;
+            }
+            if (txt.indexOf(buxuanKey) < 0) {
+                return;
+            }
+            buxuanIn = true;
+            if (buxuanTimeout) {
+                clearTimeout(buxuanTimeout)
+            }
+            buxuanTimeout = setTimeout(function() {
+                buxuanIn = false;
+            }, 5000); // consider for skill failed, after 4 secs to restart.
 
-      Log("buxuan success");
-      return;
-  }
+            Log("buxuan success");
+            return;
+    }
 }
 
 function autoBuxuanSkillFunc() {
-  var btn = getMenu("开步玄");
-  if (btn.innerHTML == "开步玄") {
-    var init = function(val) {
-      var vals = val.split("|");
-      if (vals.length != 2) {
-        Alert("输入有误，格式如：2|步玄七诀");
+    var btn = getMenu("开步玄");
+    if (btn.innerHTML == "开步玄") {
+        var init = function(val) {
+            var vals = val.split("|");
+            if (vals.length != 2) {
+                Alert("输入有误，格式如：2|步玄七诀");
+                return;
+            }
+            btn.innerText = "停步玄";
+            buxuanOnXdz = parseInt(vals[0]);
+            buxuanSkill = [vals[1]];
+            buxuanOn = true;
+            battleBuxuanOn = true;
+        };
+        var skill = getStore(buxuanSkillKey);
+        if (skill && skill.length > 0) {
+            init(skill);
+            return;
+        }
+        if (!skill || skill.length == 0) {
+            skill = "2|步玄七诀";
+        }
+        Input("战斗时使用眩晕技能(停止关键字：" + buxuanKey + ")。<br/>格式如：2|步玄七诀", skill, function(input) {
+            var val = input.value;
+            if (!val) {
+                return;
+            }
+            setStore(buxuanOnKey, "1");
+            setStore(buxuanSkillKey, val);
+            init(val);
+        })
         return;
-      }
-      btn.innerText = "停步玄";
-      buxuanOnXdz = parseInt(vals[0]);
-      buxuanSkill = [vals[1]];
-      buxuanOn = true;
-      battleBuxuanOn = true;
-    };
-    var skill = getStore(buxuanSkillKey);
-    if (skill && skill.length > 0) {
-      init(skill);
-      return;
+    } else {
+        battleBuxuanOn = false;
+        btn.innerText = "开步玄";
+        buxuanOn = false;
+        setStore(buxuanOnKey, "0");
     }
-    if (!skill || skill.length == 0) {
-      skill = "2|步玄七诀";
-    }
-    Input("战斗时使用眩晕技能(停止关键字：" + buxuanKey + ")。<br/>格式如：2|步玄七诀", skill, function(input) {
-      var val = input.value;
-      if (!val) {
-        return;
-      }
-      setStore(buxuanOnKey, "1");
-      setStore(buxuanSkillKey, val);
-      init(val);
-    })
-    return;
-  } else {
-    battleBuxuanOn = false;
-    btn.innerText = "开步玄";
-    buxuanOn = false;
-    setStore(buxuanOnKey, "0");
-  }
 }
 // 自动碧血
 var bxKey = "喷出一口鲜血";
@@ -8215,40 +8357,40 @@ function killHideNpcFunc() {
 var autoTrainArr = [];
 
 function tupo(cfg) {
-  var skills = getSkillSet(function() {
-    tupo(cfg);
-  });
-  if (!skills) return;
-
-  for (var skill of skills) {
-    if (!isContains(skill[0], cfg.name)) continue;
-
-    var onGoingSkillID = skill[1].key;
-    go("enable " + onGoingSkillID, {
-      btn: 0
+    var skills = getSkillSet(function() {
+        tupo(cfg);
     });
-    go("tupo go," + onGoingSkillID, {
-      btn: 1
-    });
+    if (!skills) return;
 
-    // 是否需要加速
-    switch (cfg.star) {
-      case "*":
-        go("tupo_speedup2 " + onGoingSkillID + " go"); // 尝试高级加速
-        go("tupo_speedup " + onGoingSkillID + " go"); // 尝试普通加速
-        break;
-      case "**":
-        go("tupo_speedup3 " + onGoingSkillID + " go"); // 尝试超级加速
-        break;
-      case "***":
-        go("tupo_speedup3_1 " + onGoingSkillID + " go"); // 尝试通天加速
-        break;
-      case "****":
-        go("tupo_speedup4_1 " + onGoingSkillID + " go"); // 尝试通天加速
-        break;
+    for (var skill of skills) {
+        if (!isContains(skill[0], cfg.name)) continue;
+
+        var onGoingSkillID = skill[1].key;
+        go("enable " + onGoingSkillID, {
+            btn: 0
+        });
+        go("tupo go," + onGoingSkillID, {
+            btn: 1
+        });
+
+        // 是否需要加速
+        switch (cfg.star) {
+            case "*":
+                go("tupo_speedup2 " + onGoingSkillID + " go"); // 尝试高级加速
+                go("tupo_speedup " + onGoingSkillID + " go"); // 尝试普通加速
+                break;
+            case "**":
+                go("tupo_speedup3 " + onGoingSkillID + " go"); // 尝试超级加速
+                break;
+            case "***":
+                go("tupo_speedup3_1 " + onGoingSkillID + " go"); // 尝试通天加速
+                break;
+            case "****":
+                go("tupo_speedup4_1 " + onGoingSkillID + " go"); // 尝试通天加速
+                break;
+        }
+        return;
     }
-    return;
-  }
 }
 
 function autoTupo() {
@@ -8272,161 +8414,161 @@ function autoTupo() {
 
 // 持续突破技能开始
 function autoTrain(b, type, subtype, msg) {
-  if (type == "notice") {
-    var l = msg.match(/你的(.*)成功向前突破了/);
-    if (l != null) {
-      autoTupo();
-      return;
+    if (type == "notice") {
+        var l = msg.match(/你的(.*)成功向前突破了/);
+        if (l != null) {
+            autoTupo();
+            return;
+        }
     }
-  }
 
-  if (type == "practice" && subtype == "stop_practice") {
-    // 自动续 练习
-    Log(type, subtype, msg, b);
-    var onGoingSkillID = b.get("sid");
-    go("enable " + onGoingSkillID);
-    go("practice " + onGoingSkillID);
-    return;
-  }
+    if (type == "practice" && subtype == "stop_practice") {
+        // 自动续 练习
+        Log(type, subtype, msg, b);
+        var onGoingSkillID = b.get("sid");
+        go("enable " + onGoingSkillID);
+        go("practice " + onGoingSkillID);
+        return;
+    }
 }
 
 // 突破用技能集合---------------------------------------------------
 var SkillSet = null;
 
 function getSkillSet(done) {
-  if (SkillSet) {
-    return SkillSet;
-  }
-  Confirm("需要读取技能列表，是否读取?", function() {
-    getSillsList(function(all, tupo) {
-      SkillSet = all;
-      if (done) done();
+    if (SkillSet) {
+        return SkillSet;
+    }
+    Confirm("需要读取技能列表，是否读取?", function() {
+        getSillsList(function(all, tupo) {
+            SkillSet = all;
+            if (done) done();
+        });
     });
-  });
 }
 
 function getSkillsList(cb) {
-  addDispatchListener("getSkillsList", function(b, type, subtype, msg) {
-    if (type != "skills" && subtype != "list") return;
-    delDispatchListener("getSkillsList");
-    goFast("prev");
+    addDispatchListener("getSkillsList", function(b, type, subtype, msg) {
+        if (type != "skills" && subtype != "list") return;
+        delDispatchListener("getSkillsList");
+        goFast("prev");
 
-    var all = new HashMap();
-    var tupo = new HashMap();
-    for (var i = b.elements.length - 1; i > -1; i--) {
-      // "hlff,黑狼斧法,500,[1;33m深不可测[2;37;0m,attack,0,0,燕云世家"
-      // "mysterrier,步玄七诀,477,[1;37m独霸一方[2;37;0m,recovery,0,5,步玄派"
-      var attr = b.elements[i].value.split(",");
-      var skill = {
-        key: attr[0],
-        name: dispatchMsg(attr[1]),
-        level: parseInt(attr[2]),
-        kind: attr[4],
-        prepare: parseInt(attr[5]),
-        state: parseInt(attr[6]),
-        from: attr[7],
-      }
-      all.set(skill.name, skill);
-      if (skill.state >= 4) {
-        tupo.set(skill.name, skill);
-      }
-    }
-    SkillSet = all;
-    cb(all, tupo);
-  })
-  goFast("skills")
+        var all = new HashMap();
+        var tupo = new HashMap();
+        for (var i = b.elements.length - 1; i > -1; i--) {
+            // "hlff,黑狼斧法,500,[1;33m深不可测[2;37;0m,attack,0,0,燕云世家"
+            // "mysterrier,步玄七诀,477,[1;37m独霸一方[2;37;0m,recovery,0,5,步玄派"
+            var attr = b.elements[i].value.split(",");
+            var skill = {
+                key: attr[0],
+                name: dispatchMsg(attr[1]),
+                level: parseInt(attr[2]),
+                kind: attr[4],
+                prepare: parseInt(attr[5]),
+                state: parseInt(attr[6]),
+                from: attr[7],
+            }
+            all.set(skill.name, skill);
+            if (skill.state >= 4) {
+                tupo.set(skill.name, skill);
+            }
+        }
+        SkillSet = all;
+        cb(all, tupo);
+    })
+    goFast("skills")
 }
 
 function autoTrainFunc(restore) {
-  var autoTrainBtn = getBtn("持续突破");
-  if (autoTrainBtn.innerHTML != "持续突破") {
-    delDispatchListener("autoTrainFunc");
-    autoTrainBtn.innerHTML = "持续突破";
-    setStore("autotrain_status", 0);
-    return;
-  }
-
-  var init = function(keyStr) {
-    // 解析配置文件
-    var keys = keyStr.split(",")
-    autoTrainArr = [];
-    for (var i = keys.length - 1; i > -1; i--) {
-      if (keys[i].length == 0) {
-        continue
-      }
-      var star = "";
-      // 注意，以下的截取需要从长到短的顺序取值
-      if (keys[i].length > 4 && keys[i].substring(0, 4) == "****") {
-        star = "****";
-        keys[i] = keys[i].substring(4);
-      } else if (keys[i].length > 3 && keys[i].substring(0, 3) == "***") {
-        star = "***";
-        keys[i] = keys[i].substring(3);
-      } else if (keys[i].length > 2 && keys[i].substring(0, 2) == "**") {
-        star = "**";
-        keys[i] = keys[i].substring(2);
-      } else if (keys[i].length > 1 && keys[i].substring(0, 1) == "*") {
-        star = "*";
-        keys[i] = keys[i].substring(1);
-      }
-      autoTrainArr.push({
-        name: keys[i],
-        star: star,
-      });
+    var autoTrainBtn = getBtn("持续突破");
+    if (autoTrainBtn.innerHTML != "持续突破") {
+        delDispatchListener("autoTrainFunc");
+        autoTrainBtn.innerHTML = "持续突破";
+        setStore("autotrain_status", 0);
+        return;
     }
 
-    // 读取突破列表
-    getSkillsList(function(allSkills, tupoSkills) {
-      var currentTupo = [];
-      for (var skill of tupoSkills) {
-        currentTupo.push(skill[0]);
-      }
-      WriteToScreen("" +
-        "当前在突技能：" + currentTupo.join(",") +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup')\">打开普通加速</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup2')\">打开高级加速</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup3')\">打开超级加速</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup3_1')\">打开通天加速</a>" +
-        "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup4_1')\">打开舍利加速</a>" +
-        "");
-      addDispatchListener("autoTrainFunc", autoTrain);
-      autoTrainBtn.innerHTML = "停续突破";
-      if (tupoSkills.size == 0) {
-        Confirm("是否自动突破：" + keyStr + "？", function() {
-          // 检查配置的技能是否在突破中，若没有，进行突破
-          for (var i = 0; i < autoTrainArr.length; i++) {
-            tupo(autoTrainArr[i]);
-          };
-          // 重导出技能以便还原配置
-          restoreSkillFunc(1);
-        });
-      }
-    }); // end for getSkillsList
-  } // end init
+    var init = function(keyStr) {
+        // 解析配置文件
+        var keys = keyStr.split(",")
+        autoTrainArr = [];
+        for (var i = keys.length - 1; i > -1; i--) {
+            if (keys[i].length == 0) {
+                continue
+            }
+            var star = "";
+            // 注意，以下的截取需要从长到短的顺序取值
+            if (keys[i].length > 4 && keys[i].substring(0, 4) == "****") {
+                star = "****";
+                keys[i] = keys[i].substring(4);
+            } else if (keys[i].length > 3 && keys[i].substring(0, 3) == "***") {
+                star = "***";
+                keys[i] = keys[i].substring(3);
+            } else if (keys[i].length > 2 && keys[i].substring(0, 2) == "**") {
+                star = "**";
+                keys[i] = keys[i].substring(2);
+            } else if (keys[i].length > 1 && keys[i].substring(0, 1) == "*") {
+                star = "*";
+                keys[i] = keys[i].substring(1);
+            }
+            autoTrainArr.push({
+                name: keys[i],
+                star: star,
+            });
+        }
 
-  var keys = getStore("autotrain_key");
-  if (restore) {
-    if (keys) init(keys);
-    return;
-  }
+        // 读取突破列表
+        getSkillsList(function(allSkills, tupoSkills) {
+            var currentTupo = [];
+            for (var skill of tupoSkills) {
+                currentTupo.push(skill[0]);
+            }
+            WriteToScreen("" +
+                          "当前在突技能：" + currentTupo.join(",") +
+                          "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup')\">打开普通加速</a>" +
+                          "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup2')\">打开高级加速</a>" +
+                          "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup3')\">打开超级加速</a>" +
+                          "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup3_1')\">打开通天加速</a>" +
+                          "<br/><a style='text-decoration:underline;color:yellow' onclick=\"go('tupo_speedup4_1')\">打开舍利加速</a>" +
+                          "");
+            addDispatchListener("autoTrainFunc", autoTrain);
+            autoTrainBtn.innerHTML = "停续突破";
+            if (tupoSkills.size == 0) {
+                Confirm("是否自动突破：" + keyStr + "？", function() {
+                    // 检查配置的技能是否在突破中，若没有，进行突破
+                    for (var i = 0; i < autoTrainArr.length; i++) {
+                        tupo(autoTrainArr[i]);
+                    };
+                    // 重导出技能以便还原配置
+                    restoreSkillFunc(1);
+                });
+            }
+        }); // end for getSkillsList
+    } // end init
 
-  if (!keys) keys = "<无>";
-  Input("请输入需要自动突破的技能，以英文逗号分割，自动继突破将在最后一个突完时才会续。<br/>" +
-    "以*打头使用一般/高级加速卡;<br/>" +
-    "以**打头使用超级加速卡;<br/>" +
-    "以***打头使用通天加速卡。<br/>" +
-    "以****打头使用舍利加速卡。<br/>" +
-    "例1, 按顺序突破：*千影百伤棍,**排云掌法,***四海断潮斩,*无相金刚掌,**降龙十八掌,***独孤九剑,****如来神掌<br/>" +
-    "例2, 突破同个技能：*千影百伤棍,**千影百伤棍,***千影百伤棍,*无相金刚掌,****排云掌法",
-    keys,
-    function(input) {
-      var val = input.value;
-      if (!val) return;
-      setStore("autotrain_status", 1);
-      setStore("autotrain_key", val);
-      init(val);
+    var keys = getStore("autotrain_key");
+    if (restore) {
+        if (keys) init(keys);
+        return;
+    }
+
+    if (!keys) keys = "<无>";
+    Input("请输入需要自动突破的技能，以英文逗号分割，自动继突破将在最后一个突完时才会续。<br/>" +
+          "以*打头使用一般/高级加速卡;<br/>" +
+          "以**打头使用超级加速卡;<br/>" +
+          "以***打头使用通天加速卡。<br/>" +
+          "以****打头使用舍利加速卡。<br/>" +
+          "例1, 按顺序突破：*千影百伤棍,**排云掌法,***四海断潮斩,*无相金刚掌,**降龙十八掌,***独孤九剑,****如来神掌<br/>" +
+          "例2, 突破同个技能：*千影百伤棍,**千影百伤棍,***千影百伤棍,*无相金刚掌,****排云掌法",
+          keys,
+          function(input) {
+        var val = input.value;
+        if (!val) return;
+        setStore("autotrain_status", 1);
+        setStore("autotrain_key", val);
+        init(val);
     });
-  return;
+    return;
 }
 // 持续突破技能结束
 
@@ -11485,70 +11627,70 @@ function findTaskFunc(keys) {
 }
 
 function dispatchChineseMsg(str){
-  return dispatchMsg(str);
+    return dispatchMsg(str);
 }
 
 var places = [
-   {name:'雪亭镇',id:1,first_place:'饮风客栈',path:'jh 1;inn_op1;w;e;n;s;e;w;s;e;s;w;s;n;w;e;e;e;ne;ne;sw;sw;n;w;n;w;e;e;e;n;s;e;e;n;s;s;n;e;w;w;w;w;w;n;w;e;n;w;e;e;e;w;w;n;e;w;w;e;n'},
-   {name:'洛阳',id:2,first_place:'龙门石窟',path:'jh 2;n;n;e;s;luoyang317_op1;n;n;w;n;w;putuan;n;e;e;s;n;w;n;e;s;n;w;w;event_1_98995501;n;w;e;n;e;w;s;s;s;s;w;e;n;e;n;w;s;luoyang111_op1;e;n;w;n;w;get_silver;s;e;n;n;e;get_silver;n;w;s;s;s;e;n;n;w;e;s;s;e;e;n;op1;s;s;e;n;n;w;e;e;n;s;w;n;w;e;n;e;w;n;w;e;s;s;s;s;s;w;w;n;w;e;e;n;s;w;n;e;w;n;w;luoyang14_op1;n;e;e;w;n;e;n;n;n;s;s;s;w;n;w;w;w;w;e;e;e;e;n;n;n;n'},
-   {name:'华山村',id:3,first_place:'华山村村口',path:'jh 3;n;e;w;s;w;n;s;event_1_59520311;n;n;w;get_silver;s;e;n;n;e;get_silver;n;w;n;e;w;s;s;s;s;s;e;e;s;e;n;s;w;s;e;s;huashancun24_op2;w;n;w;w;n;s;e;s;s;w;get_silver;n;n;s;e;huashancun15_op1;event_1_46902878;kill?藏剑楼杀手;@藏剑楼杀手;w;w;s;e;w;nw;n;n;e;get_silver;s;w;n;w;give huashancun_huashancun_fb9;e;e;n;n;w;e;n;s;e'},
-   {name:'华山',id:4,first_place:'华山山脚',path:'jh 4;n;n;w;e;n;e;w;n;n;n;n;event_1_91604710;s;s;s;w;get_silver;s;e;s;e;w;n;n;n;n;nw;s;s;w;n;n;w;s;n;w;n;get_xiangnang2;w;s;e;e;n;e;n;n;w;w;event_1_26473707;e;e;e;n;e;s;event_1_11292200;n;n;w;n;e;w;n;s;s;s;s;s;w;n;n;n;w;e;n;get_silver;s;s;e;n;n;s;s;s;s;n;n;w;s;s;w;event_1_30014247;s;w;e;s;e;w;s;s;s;e'},
-   {name:'扬州',id:5,first_place:'安定门',path:'jh 5;n;w;w;n;s;e;e;e;w;n;w;e;e;w;n;w;e;e;n;w;e;n;w;n;get_silver;s;s;e;e;get_silver;n;w;n;n;s;e;w;s;s;s;w;n;w;yangzhou16_op1;e;e;n;e;n;n;n;s;s;w;n;e;n;n;s;s;w;n;n;e;n;n;event_1_89774889;s;s;s;e;s;s;s;w;s;w;w;w;n;n;w;n;n;n;s;s;s;e;n;get_silver;s;s;e;e;w;w;s;s;s;s;n;n;e;e;n;w;e;e;n;n;n;n;s;s;e;w;w;e;s;s;w;n;w;e;e;get_silver;s;w;n;w;w;n;get_silver;s;s;w;s;w;e;e;e;s;s;e;e;s;s;s;n;n;n;w;w;n;n;w;w;n;e;e;e;n;e;s;e;s;s;s;n;n;n;w;n;w;n;ne;sw;s;w;s;n;w;n;w;e;e;w;n;n;w;n;s;e;e;s;n;w;n;s;s;s;s;e;e;s;s;s;w;event_1_69751810'},
-   {name:'丐帮',id:6,first_place:'树洞内部',path:'jh 6;event_1_98623439;s;w;e;n;ne;n;ne;ne;ne;event_1_97428251;n;sw;sw;sw;s;ne;ne;event_1_16841370'},
-   {name:'乔阴县',id:7,first_place:'乔阴县城北门',path:'jh 7;s;s;s;w;s;w;w;w;e;e;e;e;event_1_65599392;n;s;w;e;ne;s;s;e;n;n;e;w;s;s;w;s;w;w;w;n;s;s;e;n;s;e;ne;s;e;n;e;s;e'},
-   {name:'峨眉山',id:8,first_place:'十二盘',path:'jh 8;w;nw;n;n;n;n;w;e;se;nw;e;n;s;e;n;n;e;kill?看山弟子;n;n;n;n;e;e;w;w;w;n;n;n;w;w;s;e;w;w;e;s;e;w;w;e;n;n;w;w;n;s;sw;ne;e;e;n;e;w;w;e;n;e;w;w;e;n;w;w;w;n;n;n;s;s;s;e;e;e;e;e;s;s;s;e;e;s;w;e;e;w;s;w;e;e;w;n;n;e;e;w;w;n;w;e;e;w;n;w;e;e;w;n;e;e;w;w;w;w;n;w;w;e;n;s;s;n;e;n;n;n;n;s;s;nw;nw;n;n;s;s;se;sw;w;nw;w;e;se;e;ne;se;ne;se;s;se;nw;n;nw;ne;n;s;se;e'},
-   {name:'恒山',id:9,first_place:'大字岭',path:'jh 9;n;w;e;n;e;get_silver;w;w;n;w;e;n;henshan15_op1;e;e;w;n;event_1_85624865;n;w;event_1_27135529;e;e;e;w;n;n;n;s;henshan_zizhiyu11_op1;e;s;s;s;w;n;n;w;n;s;s;n;e;e;e;w;n;s;w;n;n;w;n;e;n;s;w;n;n;w;get_silver;s;e;n'},
-   {name:'武当山',id:10,first_place:'林中小路',path:'jh 10;w;n;n;w;w;w;n;n;n;n;e;e;e;e;s;e;s;e;n;s;s;n;e;e;n;s;e;w;s;s;s;n;n;n;w;w;w;n;w;n;w;w;w;w;n;w;n;s;e;e;e;s;n;e;e;w;w;w;w;n;n;n;n;jh 10;w;n;event_1_74091319;ne;n;sw;nw;w;ne;n;w;nw;sw;ne;n;nw;event_1_5824311'},
-   {name:'晚月庄',id:11,first_place:'竹林',path:'jh 11;e;e;s;sw;se;w;n;s;w;w;s;n;w;e;e;s;w;e;s;e;e;e;w;w;w;w;s;n;w;n;s;s;n;e;e;s;w;w;e;e;e;e;w;w;s;e;e;w;w;n;e;n;n;w;n;n;n;e;e;s;s;s;w;s;s;w;e;se;e;se;ne;n;nw;w;s;s;s;se;s'},
-   {name:'水烟阁',id:12,first_place:'青石官道',path:'jh 12;n;e;w;n;n;n;s;w;n;n;e;w;s;nw;e;e;sw;n;s;s;e;w;n;ne;w;n'},
-   {name:'少林寺',id:13,first_place:'丛林山径',path:'jh 13;e;s;s;w;w;w;event_1_38874360;jh 13;n;w;w;n;shaolin012_op1;s;s;e;e;n;w;e;e;w;n;n;w;e;e;w;n;n;w;e;e;w;n;shaolin27_op1;event_1_34680156;s;w;n;w;e;e;w;n;shaolin25_op1;w;n;w;s;s;s;get_silver;w;s;s;s;s;s;n;n;n;n;n;n;n;n;e;e;s;s;s;s;get_silver;w;s;s;s;get_silver;w;s;n;n;n;n;n;n;n;n;w;n;w;e;e;w;n;e;w;w;n;get_silver'},
-   {name:'唐门',id:14,first_place:'蜀道',path:'jh 14;e;w;w;n;n;n;n;s;w;n;s;s;n;w;n;s;s;n;w;n;s;s;n;w;e;e;e;e;e;s;n;e;n;e;w;n;n;s;ask tangmen_tangmei;ask tangmen_tangmei;e;event_1_8413183;event_1_39383240;e;s;e;n;w;n;n;s;s;e'},
-   {name:'青城山',id:15,first_place:'北郊',path:'jh 15;s;ne;sw;s;e;w;w;n;s;e;s;e;w;w;w;n;s;w;w;w;n;s;w;e;e;e;e;s;s;n;n;e;e;s;e;w;w;e;s;e;w;s;w;s;ne;s;s;s;e;s;jh 15;n;nw;w;nw;n;s;w;s;s;s;kill qingcheng_renjie;w;w;n;e;w;w;e;n;s;s;w;s;n;n;n;s;s;w;n'},
-   {name:'逍遥林',id:16,first_place:'青石大道',path:'jh 16;s;s;s;s;e;e;s;w;n;s;s;s;n;n;w;n;n;s;s;s;s;n;n;w;w;n;s;s;n;w;e;e;e;e;e;e;n;n;e;event_1_5221690;s;w;event_1_57688376;n;n;w;w;e;n;s;e;e;n;event_1_88625473;event_1_82116250;event_1_90680562;event_1_38586637;s;s;e;n;n;w;n;e;jh 16;s;s;s;s;e;n;e;event_1_56806815;jh 16;s;s;s;s;e;n;e;event_1_5221690;s;w;event_1_57688376;n;n;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366'},
-   {name:'开封',id:17,first_place:'朱雀门',path:'jh 17;n;w;e;e;s;n;w;n;w;s;n;n;n;s;s;e;e;e;s;n;n;n;s;s;w;s;s;s;w;e;s;w;e;n;e;n;s;s;n;e;e;jh 17;n;n;n;e;w;n;e;w;n;e;se;s;n;nw;n;n;n;event_1_27702191;jh 17;n;n;n;n;w;w;n;s;s;n;w;w;e;n;n;w;e;s;s;s;s;w;jh 17;sw;nw;se;s;sw;nw;ne;event_1_38940168;jh 17;e;s;s;s;e;kaifeng_yuwangtai23_op1;s;w;s;s;w;jh 17;n;n;e;e;n;get_silver'},
-   {name:'明教',id:18,first_place:'小村',path:'jh 18;w;n;s;e;e;w;n;nw;sw;ne;n;n;w;e;n;n;n;ne;n;n;e;w;w;e;n;e;w;w;e;n;n;e;e;se;se;e;w;nw;nw;n;w;w;w;w;s;s;n;e;w;n;n;n;e;nw;nw;se;se;e;s;w;e;e;w;n;e;e;se;e;w;sw;s;w;w;n;e;w;n;n;n;n;n;w;e;n;event_1_90080676;event_1_56007071;ne;n;nw;se;s;s;e;n;w;nw;sw;se;e;se;nw;s;s;s;s;w;nw;nw;event_1_70957287;event_1_39374335;kill?九幽毒童;event_1_2077333'},
-   {name:'光明顶',id:18,first_place:'小村',path:'jh 18;w;n;s;e;e;w;n;nw;sw;ne;n;n;w;e;n;n;n;ne;n;n;e;w;w;e;n;e;w;w;e;n;n;e;e;se;se;e;w;nw;nw;n;w;w;w;w;s;s;n;e;w;n;n;n;e;nw;nw;se;se;e;s;w;e;e;w;n;e;e;se;e;w;sw;s;w;w;n;e;w;n;n;n;n;n;w;e;n;event_1_90080676;event_1_56007071;ne;n;nw;se;s;s;e;n;w;nw;sw;se;e;se;nw;s;s;s;s;w;nw;nw;event_1_70957287;event_1_39374335;kill?九幽毒童;event_1_2077333'},
-   {name:'全真教',id:19,first_place:'终南山路',path:'jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;w;e;e;w;n;w;w;w;s;n;w;s;n;e;e;e;e;e;n;s;e;n;n;s;s;e;w;w;w;n;n;n;w;e;e;s;n;e;n;n;n;n;s;e;s;n;n;n;w;n;w;w;w;s;s;s;s;s;e;n;n;n;s;w;s;n;w;n;s;s;s;w;n;n;n;s;w;s;s;s;s;e;s;s;n;n;e;s;s;n;n;e;e;n;n;n;n;w;w;w;n;n;e;n;e;e;n;n'},
-   {name:'古墓',id:20,first_place:'山路',path:'jh 20;s;s;n;n;w;w;s;e;s;s;w;s;s;s;sw;sw;s;e;se;nw;w;s;e;w;w;e;s;s;w;w;e;s;sw;ne;e;s;s;w;w;e;e;s;n;e;e;e;e;s;e;w;n;w;n;e;w;n;s;w;s;n;n;e;w;n;n;s;s;w;e;event_1_3723773;se;n;e;s;e;s;e'},
-   {name:'白驼山',id:21,first_place:'戈壁',path:'jh 21;nw;s;n;ne;ne;sw;n;n;ne;w;e;n;n;n;s;w;w;jh 21;nw;w;n;s;w;nw;e;w;nw;nw;n;w;sw;ne;s;event_1_47975698;s;sw;s;ne;e;s;s;jh 21;nw;w;w;nw;n;e;w;n;n;w;e;n;n;e;e;w;nw;se;e;ne;sw;e;se;nw;w;n;s;s;n;w;w;n;n;n;n;s;s;s;s;e;e;e;n;n;w;e;e;e;w;w;n;nw;se;ne;w;e;e;w;n'},
-   {name:'嵩山',id:22,first_place:'太室阙',path:'jh 22;n;n;w;w;s;s;e;w;s;s;w;e;s;n;n;n;n;n;e;n;n;n;n;n;e;n;e;e;w;w;n;w;n;s;e;n;n;n;e;songshan33_op1;n;w;w;w;e;n;w;e;n;s;s;e;n;e;w;n;e;w;n;get_silver;jh 22;n;n;n;n;e;n;event_1_1412213;s;event_1_29122616;jh 22;n;n;n;n;n;n;n'},
-   {name:'寒梅庄',id:23,first_place:'柳树林',path:'jh 23;n;n;e;w;n;n;n;n;n;w;w;e;e;e;s;n;w;n;w;n;s;w;e;e;e;n;s;w;n;n;e;w;event_1_8188693;n;n;w;e;n;e;n;s;w;n;s;s;s;s;s;w;n'},
-   {name:'梅庄',id:23,first_place:'柳树林',path:'jh 23;n;n;e;w;n;n;n;n;n;w;w;e;e;e;s;n;w;n;w;n;s;w;e;e;e;n;s;w;n;n;e;w;event_1_8188693;n;n;w;e;n;e;n;s;w;n;s;s;s;s;s;w;n'},
-   {name:'泰山',id:24,first_place:'岱宗坊',path:'jh 24;se;nw;n;n;n;n;w;e;e;e;w;s;n;w;n;n;w;e;e;w;n;e;w;n;w;n;n;n;n;n;s;s;w;n;s;e;s;s;s;e;n;e;w;n;w;e;n;n;e;s;n;e;n;e;w;n;w;e;e;w;n;n;s;s;s;s;s;w;w;n;n;w;e;e;w;n;n;w;e;e;w;n;s;s;s;s;s;w;n;e;w;n;w;e;n;n;e'},
-   {name:'大旗门',id:25,first_place:'小路',path:'jh 11;e;e;s;n;nw;w;nw;e;e;e;n;w;e;s;se;jh 25;w;e;e;e;e;e;s;yell;n;s;e;ne;se;e;e;e;e;w;w;w;w;nw;sw;w;s;e;event_1_81629028;s;e;n;w;w;s;w'},
-   {name:'铁血大旗门',id:25,first_place:'小路',path:'jh 11;e;e;s;n;nw;w;nw;e;e;e;n;w;e;s;se;jh 25;w;e;e;e;e;e;s;yell;n;s;e;ne;se;e;e;e;e;w;w;w;w;nw;sw;w;s;e;event_1_81629028;s;e;n;w;w;s;w'},
-   {name:'大昭寺',id:26,first_place:'草原',path:'jh 26;w;w;w;w;w;n;s;w;s;w;e;e;e;w;w;s;w;w;w;s;n;w;n;n;n;n;n;e;e;e;e;e;w;s;s;w;w;n;w;e;e;w;s;w;n;s;s;n;w;ask lama_master;ask lama_master;ask lama_master;event_1_91837538'},
-   {name:'魔教',id:27,first_place:'驿道',path:'jh 27;se;e;e;e;w;w;w;nw;ne;w;e;n;ne;sw;s;nw;w;nw;w;w;kill?船夫;@船夫的尸体;yell;w;nw;sw;ne;n;n;n;n;n;n;n;w;n;n;n;n;n;n;n;n;n;n;yell;n;n;n;n;w;e;e;w;n;e;n;s;w;n;nw;n;s;se;ne;n;s;sw;w;ne;n;s;ne;n;n;s;s;nw;n;s;se;w;n;s;e;sw;n;s;ne;se;n;s;nw;e;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;w;w;w;w;w;n;n;n;n;n;w;w;w;w;w;e;e;e;e;e;e;e;e;e;e;w;w;w;w;w;n;n;event_1_57107759;e;e;n;w'},
-   {name:'黑木崖',id:27,first_place:'驿道',path:'jh 27;se;e;e;e;w;w;w;nw;ne;w;e;n;ne;sw;s;nw;w;nw;w;w;kill?船夫;@船夫的尸体;yell;w;nw;sw;ne;n;n;n;n;n;n;n;w;n;n;n;n;n;n;n;n;n;n;yell;n;n;n;n;w;e;e;w;n;e;n;s;w;n;nw;n;s;se;ne;n;s;sw;w;ne;n;s;ne;n;n;s;s;nw;n;s;se;w;n;s;e;sw;n;s;ne;se;n;s;nw;e;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;w;w;w;w;w;n;n;n;n;n;w;w;w;w;w;e;e;e;e;e;e;e;e;e;e;w;w;w;w;w;n;n;event_1_57107759;e;e;n;w'},
-   {name:'星宿海',id:28,first_place:'天山下',path:'jh 28;nw;nw;se;w;e;sw;ne;e;e;jh 28;n;n;e;ne;n;s;sw;w;n;n;n;s;ne;nw;se;sw;nw;w;se;jh 28;n;w;n;n;n;s;se;nw;s;s;w;w;se;nw;w;n;w;e;s;w;w;nw;ne;nw;w;e;ne;nw;ne;e;w;nw;ne;nw;w;e;ne;nw;ne;e;w;nw;jh 28;sw;nw;sw;sw;nw;nw;se;sw'},
-   {name:'茅山',id:29,first_place:'无名山脚',path:'jh 29,n,n,n,n,event_1_60035830,e,w,1_event_1_65661209,n,jh 29,n,n,n,n,event_1_60035830,0_event_1_65661209,n,n,n,n,n,e,w,n,e,w,n,event_1_98579273,w,e,nw,se,e,w,n,e'},
-   {name:'桃花岛',id:30,first_place:'海滩',path:'jh 30,n,n,ne,sw,n,n,n,w,e,e,w,n,n,w,w,e,e,e,n,s,s,n,w,n,n,n,w,w,s,s,n,n,e,e,e,n,s,s,n,e,n,s,e,n,s,s,n,w,w,w,nw,w,e,se,n,n,n,e,e,w,w,n,se,s,jh 30,yell,w,n,e,w,n'},
-   {name:'铁雪山庄',id:31,first_place:'羊肠小道',path:'jh 31,n,n,n,w,w,w,w,n,n,n,n,w,e,e,jh 31,n,se,e,se,s,s,sw,se,se,e,nw,e,ne,n,ne,n,n,n,n,n,n,w,n,s,w,sw,ne,e,e,e,n,s,e,event_1_47175535,nw,w,w,n,n,n,n,n,n,s,s,s,w,w,event_1_57281457,se,e,e,e,e,event_1_94442590,jh 31,n,se,jh 31,n,se,e,se,s,w'},
+    {name:'雪亭镇',id:1,first_place:'饮风客栈',path:'jh 1;inn_op1;w;e;n;s;e;w;s;e;s;w;s;n;w;e;e;e;ne;ne;sw;sw;n;w;n;w;e;e;e;n;s;e;e;n;s;s;n;e;w;w;w;w;w;n;w;e;n;w;e;e;e;w;w;n;e;w;w;e;n'},
+    {name:'洛阳',id:2,first_place:'龙门石窟',path:'jh 2;n;n;e;s;luoyang317_op1;n;n;w;n;w;putuan;n;e;e;s;n;w;n;e;s;n;w;w;event_1_98995501;n;w;e;n;e;w;s;s;s;s;w;e;n;e;n;w;s;luoyang111_op1;e;n;w;n;w;get_silver;s;e;n;n;e;get_silver;n;w;s;s;s;e;n;n;w;e;s;s;e;e;n;op1;s;s;e;n;n;w;e;e;n;s;w;n;w;e;n;e;w;n;w;e;s;s;s;s;s;w;w;n;w;e;e;n;s;w;n;e;w;n;w;luoyang14_op1;n;e;e;w;n;e;n;n;n;s;s;s;w;n;w;w;w;w;e;e;e;e;n;n;n;n'},
+    {name:'华山村',id:3,first_place:'华山村村口',path:'jh 3;n;e;w;s;w;n;s;event_1_59520311;n;n;w;get_silver;s;e;n;n;e;get_silver;n;w;n;e;w;s;s;s;s;s;e;e;s;e;n;s;w;s;e;s;huashancun24_op2;w;n;w;w;n;s;e;s;s;w;get_silver;n;n;s;e;huashancun15_op1;event_1_46902878;kill?藏剑楼杀手;@藏剑楼杀手;w;w;s;e;w;nw;n;n;e;get_silver;s;w;n;w;give huashancun_huashancun_fb9;e;e;n;n;w;e;n;s;e'},
+    {name:'华山',id:4,first_place:'华山山脚',path:'jh 4;n;n;w;e;n;e;w;n;n;n;n;event_1_91604710;s;s;s;w;get_silver;s;e;s;e;w;n;n;n;n;nw;s;s;w;n;n;w;s;n;w;n;get_xiangnang2;w;s;e;e;n;e;n;n;w;w;event_1_26473707;e;e;e;n;e;s;event_1_11292200;n;n;w;n;e;w;n;s;s;s;s;s;w;n;n;n;w;e;n;get_silver;s;s;e;n;n;s;s;s;s;n;n;w;s;s;w;event_1_30014247;s;w;e;s;e;w;s;s;s;e'},
+    {name:'扬州',id:5,first_place:'安定门',path:'jh 5;n;w;w;n;s;e;e;e;w;n;w;e;e;w;n;w;e;e;n;w;e;n;w;n;get_silver;s;s;e;e;get_silver;n;w;n;n;s;e;w;s;s;s;w;n;w;yangzhou16_op1;e;e;n;e;n;n;n;s;s;w;n;e;n;n;s;s;w;n;n;e;n;n;event_1_89774889;s;s;s;e;s;s;s;w;s;w;w;w;n;n;w;n;n;n;s;s;s;e;n;get_silver;s;s;e;e;w;w;s;s;s;s;n;n;e;e;n;w;e;e;n;n;n;n;s;s;e;w;w;e;s;s;w;n;w;e;e;get_silver;s;w;n;w;w;n;get_silver;s;s;w;s;w;e;e;e;s;s;e;e;s;s;s;n;n;n;w;w;n;n;w;w;n;e;e;e;n;e;s;e;s;s;s;n;n;n;w;n;w;n;ne;sw;s;w;s;n;w;n;w;e;e;w;n;n;w;n;s;e;e;s;n;w;n;s;s;s;s;e;e;s;s;s;w;event_1_69751810'},
+    {name:'丐帮',id:6,first_place:'树洞内部',path:'jh 6;event_1_98623439;s;w;e;n;ne;n;ne;ne;ne;event_1_97428251;n;sw;sw;sw;s;ne;ne;event_1_16841370'},
+    {name:'乔阴县',id:7,first_place:'乔阴县城北门',path:'jh 7;s;s;s;w;s;w;w;w;e;e;e;e;event_1_65599392;n;s;w;e;ne;s;s;e;n;n;e;w;s;s;w;s;w;w;w;n;s;s;e;n;s;e;ne;s;e;n;e;s;e'},
+    {name:'峨眉山',id:8,first_place:'十二盘',path:'jh 8;w;nw;n;n;n;n;w;e;se;nw;e;n;s;e;n;n;e;kill?看山弟子;n;n;n;n;e;e;w;w;w;n;n;n;w;w;s;e;w;w;e;s;e;w;w;e;n;n;w;w;n;s;sw;ne;e;e;n;e;w;w;e;n;e;w;w;e;n;w;w;w;n;n;n;s;s;s;e;e;e;e;e;s;s;s;e;e;s;w;e;e;w;s;w;e;e;w;n;n;e;e;w;w;n;w;e;e;w;n;w;e;e;w;n;e;e;w;w;w;w;n;w;w;e;n;s;s;n;e;n;n;n;n;s;s;nw;nw;n;n;s;s;se;sw;w;nw;w;e;se;e;ne;se;ne;se;s;se;nw;n;nw;ne;n;s;se;e'},
+    {name:'恒山',id:9,first_place:'大字岭',path:'jh 9;n;w;e;n;e;get_silver;w;w;n;w;e;n;henshan15_op1;e;e;w;n;event_1_85624865;n;w;event_1_27135529;e;e;e;w;n;n;n;s;henshan_zizhiyu11_op1;e;s;s;s;w;n;n;w;n;s;s;n;e;e;e;w;n;s;w;n;n;w;n;e;n;s;w;n;n;w;get_silver;s;e;n'},
+    {name:'武当山',id:10,first_place:'林中小路',path:'jh 10;w;n;n;w;w;w;n;n;n;n;e;e;e;e;s;e;s;e;n;s;s;n;e;e;n;s;e;w;s;s;s;n;n;n;w;w;w;n;w;n;w;w;w;w;n;w;n;s;e;e;e;s;n;e;e;w;w;w;w;n;n;n;n;jh 10;w;n;event_1_74091319;ne;n;sw;nw;w;ne;n;w;nw;sw;ne;n;nw;event_1_5824311'},
+    {name:'晚月庄',id:11,first_place:'竹林',path:'jh 11;e;e;s;sw;se;w;n;s;w;w;s;n;w;e;e;s;w;e;s;e;e;e;w;w;w;w;s;n;w;n;s;s;n;e;e;s;w;w;e;e;e;e;w;w;s;e;e;w;w;n;e;n;n;w;n;n;n;e;e;s;s;s;w;s;s;w;e;se;e;se;ne;n;nw;w;s;s;s;se;s'},
+    {name:'水烟阁',id:12,first_place:'青石官道',path:'jh 12;n;e;w;n;n;n;s;w;n;n;e;w;s;nw;e;e;sw;n;s;s;e;w;n;ne;w;n'},
+    {name:'少林寺',id:13,first_place:'丛林山径',path:'jh 13;e;s;s;w;w;w;event_1_38874360;jh 13;n;w;w;n;shaolin012_op1;s;s;e;e;n;w;e;e;w;n;n;w;e;e;w;n;n;w;e;e;w;n;shaolin27_op1;event_1_34680156;s;w;n;w;e;e;w;n;shaolin25_op1;w;n;w;s;s;s;get_silver;w;s;s;s;s;s;n;n;n;n;n;n;n;n;e;e;s;s;s;s;get_silver;w;s;s;s;get_silver;w;s;n;n;n;n;n;n;n;n;w;n;w;e;e;w;n;e;w;w;n;get_silver'},
+    {name:'唐门',id:14,first_place:'蜀道',path:'jh 14;e;w;w;n;n;n;n;s;w;n;s;s;n;w;n;s;s;n;w;n;s;s;n;w;e;e;e;e;e;s;n;e;n;e;w;n;n;s;ask tangmen_tangmei;ask tangmen_tangmei;e;event_1_8413183;event_1_39383240;e;s;e;n;w;n;n;s;s;e'},
+    {name:'青城山',id:15,first_place:'北郊',path:'jh 15;s;ne;sw;s;e;w;w;n;s;e;s;e;w;w;w;n;s;w;w;w;n;s;w;e;e;e;e;s;s;n;n;e;e;s;e;w;w;e;s;e;w;s;w;s;ne;s;s;s;e;s;jh 15;n;nw;w;nw;n;s;w;s;s;s;kill qingcheng_renjie;w;w;n;e;w;w;e;n;s;s;w;s;n;n;n;s;s;w;n'},
+    {name:'逍遥林',id:16,first_place:'青石大道',path:'jh 16;s;s;s;s;e;e;s;w;n;s;s;s;n;n;w;n;n;s;s;s;s;n;n;w;w;n;s;s;n;w;e;e;e;e;e;e;n;n;e;event_1_5221690;s;w;event_1_57688376;n;n;w;w;e;n;s;e;e;n;event_1_88625473;event_1_82116250;event_1_90680562;event_1_38586637;s;s;e;n;n;w;n;e;jh 16;s;s;s;s;e;n;e;event_1_56806815;jh 16;s;s;s;s;e;n;e;event_1_5221690;s;w;event_1_57688376;n;n;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366;event_1_38333366'},
+    {name:'开封',id:17,first_place:'朱雀门',path:'jh 17;n;w;e;e;s;n;w;n;w;s;n;n;n;s;s;e;e;e;s;n;n;n;s;s;w;s;s;s;w;e;s;w;e;n;e;n;s;s;n;e;e;jh 17;n;n;n;e;w;n;e;w;n;e;se;s;n;nw;n;n;n;event_1_27702191;jh 17;n;n;n;n;w;w;n;s;s;n;w;w;e;n;n;w;e;s;s;s;s;w;jh 17;sw;nw;se;s;sw;nw;ne;event_1_38940168;jh 17;e;s;s;s;e;kaifeng_yuwangtai23_op1;s;w;s;s;w;jh 17;n;n;e;e;n;get_silver'},
+    {name:'明教',id:18,first_place:'小村',path:'jh 18;w;n;s;e;e;w;n;nw;sw;ne;n;n;w;e;n;n;n;ne;n;n;e;w;w;e;n;e;w;w;e;n;n;e;e;se;se;e;w;nw;nw;n;w;w;w;w;s;s;n;e;w;n;n;n;e;nw;nw;se;se;e;s;w;e;e;w;n;e;e;se;e;w;sw;s;w;w;n;e;w;n;n;n;n;n;w;e;n;event_1_90080676;event_1_56007071;ne;n;nw;se;s;s;e;n;w;nw;sw;se;e;se;nw;s;s;s;s;w;nw;nw;event_1_70957287;event_1_39374335;kill?九幽毒童;event_1_2077333'},
+    {name:'光明顶',id:18,first_place:'小村',path:'jh 18;w;n;s;e;e;w;n;nw;sw;ne;n;n;w;e;n;n;n;ne;n;n;e;w;w;e;n;e;w;w;e;n;n;e;e;se;se;e;w;nw;nw;n;w;w;w;w;s;s;n;e;w;n;n;n;e;nw;nw;se;se;e;s;w;e;e;w;n;e;e;se;e;w;sw;s;w;w;n;e;w;n;n;n;n;n;w;e;n;event_1_90080676;event_1_56007071;ne;n;nw;se;s;s;e;n;w;nw;sw;se;e;se;nw;s;s;s;s;w;nw;nw;event_1_70957287;event_1_39374335;kill?九幽毒童;event_1_2077333'},
+    {name:'全真教',id:19,first_place:'终南山路',path:'jh 19;s;s;s;sw;s;e;n;nw;n;n;n;n;w;e;e;w;n;w;w;w;s;n;w;s;n;e;e;e;e;e;n;s;e;n;n;s;s;e;w;w;w;n;n;n;w;e;e;s;n;e;n;n;n;n;s;e;s;n;n;n;w;n;w;w;w;s;s;s;s;s;e;n;n;n;s;w;s;n;w;n;s;s;s;w;n;n;n;s;w;s;s;s;s;e;s;s;n;n;e;s;s;n;n;e;e;n;n;n;n;w;w;w;n;n;e;n;e;e;n;n'},
+    {name:'古墓',id:20,first_place:'山路',path:'jh 20;s;s;n;n;w;w;s;e;s;s;w;s;s;s;sw;sw;s;e;se;nw;w;s;e;w;w;e;s;s;w;w;e;s;sw;ne;e;s;s;w;w;e;e;s;n;e;e;e;e;s;e;w;n;w;n;e;w;n;s;w;s;n;n;e;w;n;n;s;s;w;e;event_1_3723773;se;n;e;s;e;s;e'},
+    {name:'白驼山',id:21,first_place:'戈壁',path:'jh 21;nw;s;n;ne;ne;sw;n;n;ne;w;e;n;n;n;s;w;w;jh 21;nw;w;n;s;w;nw;e;w;nw;nw;n;w;sw;ne;s;event_1_47975698;s;sw;s;ne;e;s;s;jh 21;nw;w;w;nw;n;e;w;n;n;w;e;n;n;e;e;w;nw;se;e;ne;sw;e;se;nw;w;n;s;s;n;w;w;n;n;n;n;s;s;s;s;e;e;e;n;n;w;e;e;e;w;w;n;nw;se;ne;w;e;e;w;n'},
+    {name:'嵩山',id:22,first_place:'太室阙',path:'jh 22;n;n;w;w;s;s;e;w;s;s;w;e;s;n;n;n;n;n;e;n;n;n;n;n;e;n;e;e;w;w;n;w;n;s;e;n;n;n;e;songshan33_op1;n;w;w;w;e;n;w;e;n;s;s;e;n;e;w;n;e;w;n;get_silver;jh 22;n;n;n;n;e;n;event_1_1412213;s;event_1_29122616;jh 22;n;n;n;n;n;n;n'},
+    {name:'寒梅庄',id:23,first_place:'柳树林',path:'jh 23;n;n;e;w;n;n;n;n;n;w;w;e;e;e;s;n;w;n;w;n;s;w;e;e;e;n;s;w;n;n;e;w;event_1_8188693;n;n;w;e;n;e;n;s;w;n;s;s;s;s;s;w;n'},
+    {name:'梅庄',id:23,first_place:'柳树林',path:'jh 23;n;n;e;w;n;n;n;n;n;w;w;e;e;e;s;n;w;n;w;n;s;w;e;e;e;n;s;w;n;n;e;w;event_1_8188693;n;n;w;e;n;e;n;s;w;n;s;s;s;s;s;w;n'},
+    {name:'泰山',id:24,first_place:'岱宗坊',path:'jh 24;se;nw;n;n;n;n;w;e;e;e;w;s;n;w;n;n;w;e;e;w;n;e;w;n;w;n;n;n;n;n;s;s;w;n;s;e;s;s;s;e;n;e;w;n;w;e;n;n;e;s;n;e;n;e;w;n;w;e;e;w;n;n;s;s;s;s;s;w;w;n;n;w;e;e;w;n;n;w;e;e;w;n;s;s;s;s;s;w;n;e;w;n;w;e;n;n;e'},
+    {name:'大旗门',id:25,first_place:'小路',path:'jh 11;e;e;s;n;nw;w;nw;e;e;e;n;w;e;s;se;jh 25;w;e;e;e;e;e;s;yell;n;s;e;ne;se;e;e;e;e;w;w;w;w;nw;sw;w;s;e;event_1_81629028;s;e;n;w;w;s;w'},
+    {name:'铁血大旗门',id:25,first_place:'小路',path:'jh 11;e;e;s;n;nw;w;nw;e;e;e;n;w;e;s;se;jh 25;w;e;e;e;e;e;s;yell;n;s;e;ne;se;e;e;e;e;w;w;w;w;nw;sw;w;s;e;event_1_81629028;s;e;n;w;w;s;w'},
+    {name:'大昭寺',id:26,first_place:'草原',path:'jh 26;w;w;w;w;w;n;s;w;s;w;e;e;e;w;w;s;w;w;w;s;n;w;n;n;n;n;n;e;e;e;e;e;w;s;s;w;w;n;w;e;e;w;s;w;n;s;s;n;w;ask lama_master;ask lama_master;ask lama_master;event_1_91837538'},
+    {name:'魔教',id:27,first_place:'驿道',path:'jh 27;se;e;e;e;w;w;w;nw;ne;w;e;n;ne;sw;s;nw;w;nw;w;w;kill?船夫;@船夫的尸体;yell;w;nw;sw;ne;n;n;n;n;n;n;n;w;n;n;n;n;n;n;n;n;n;n;yell;n;n;n;n;w;e;e;w;n;e;n;s;w;n;nw;n;s;se;ne;n;s;sw;w;ne;n;s;ne;n;n;s;s;nw;n;s;se;w;n;s;e;sw;n;s;ne;se;n;s;nw;e;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;w;w;w;w;w;n;n;n;n;n;w;w;w;w;w;e;e;e;e;e;e;e;e;e;e;w;w;w;w;w;n;n;event_1_57107759;e;e;n;w'},
+    {name:'黑木崖',id:27,first_place:'驿道',path:'jh 27;se;e;e;e;w;w;w;nw;ne;w;e;n;ne;sw;s;nw;w;nw;w;w;kill?船夫;@船夫的尸体;yell;w;nw;sw;ne;n;n;n;n;n;n;n;w;n;n;n;n;n;n;n;n;n;n;yell;n;n;n;n;w;e;e;w;n;e;n;s;w;n;nw;n;s;se;ne;n;s;sw;w;ne;n;s;ne;n;n;s;s;nw;n;s;se;w;n;s;e;sw;n;s;ne;se;n;s;nw;e;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;e;n;s;s;n;w;w;w;w;w;n;n;n;n;n;w;w;w;w;w;e;e;e;e;e;e;e;e;e;e;w;w;w;w;w;n;n;event_1_57107759;e;e;n;w'},
+    {name:'星宿海',id:28,first_place:'天山下',path:'jh 28;nw;nw;se;w;e;sw;ne;e;e;jh 28;n;n;e;ne;n;s;sw;w;n;n;n;s;ne;nw;se;sw;nw;w;se;jh 28;n;w;n;n;n;s;se;nw;s;s;w;w;se;nw;w;n;w;e;s;w;w;nw;ne;nw;w;e;ne;nw;ne;e;w;nw;ne;nw;w;e;ne;nw;ne;e;w;nw;jh 28;sw;nw;sw;sw;nw;nw;se;sw'},
+    {name:'茅山',id:29,first_place:'无名山脚',path:'jh 29,n,n,n,n,event_1_60035830,e,w,1_event_1_65661209,n,jh 29,n,n,n,n,event_1_60035830,0_event_1_65661209,n,n,n,n,n,e,w,n,e,w,n,event_1_98579273,w,e,nw,se,e,w,n,e'},
+    {name:'桃花岛',id:30,first_place:'海滩',path:'jh 30,n,n,ne,sw,n,n,n,w,e,e,w,n,n,w,w,e,e,e,n,s,s,n,w,n,n,n,w,w,s,s,n,n,e,e,e,n,s,s,n,e,n,s,e,n,s,s,n,w,w,w,nw,w,e,se,n,n,n,e,e,w,w,n,se,s,jh 30,yell,w,n,e,w,n'},
+    {name:'铁雪山庄',id:31,first_place:'羊肠小道',path:'jh 31,n,n,n,w,w,w,w,n,n,n,n,w,e,e,jh 31,n,se,e,se,s,s,sw,se,se,e,nw,e,ne,n,ne,n,n,n,n,n,n,w,n,s,w,sw,ne,e,e,e,n,s,e,event_1_47175535,nw,w,w,n,n,n,n,n,n,s,s,s,w,w,event_1_57281457,se,e,e,e,e,event_1_94442590,jh 31,n,se,jh 31,n,se,e,se,s,w'},
     //'慕容山庄',id:32,first_place:'回望桥',path:'jh 32,n,n,se,w,e,n,w,e,ne,sw,n,n,n,n,s,e,w,w,s,n,w,n,s,s,n,w,n,event_1_72278818,event_1_35141481,w,e,s,w,n,e,n,n,w,n,w,e,s,e,e,n,n,s,w,e,e,jh 32,n,n,se,e,s,s,event_1_99232080,e,e,s,e,s,e,e,e,n,n,s,s,s,s,event_1_92057893,e,n,s,s,event_1_8205862'},
-   {name:'慕容山庄',id:32,first_place:'回望桥',path:'jh 32,n,n,se,w,e,n,w,e,ne,sw,n,n,n,n,s,e,w,w,s,n,w,n,s,s,n,w,n,w,n,e,n,n,w,n,w,e,s,e,e,n,n,s,w,e,e,jh 32,n,n,se,n,n,n,n,w,w,w,n,event_1_72278818,event_1_35141481,w,jh 32,n,n,se,e,s,s,event_1_99232080,e,e,s,e,s,e,e,e,n,n,s,s,s,s,event_1_92057893,e,n,s,s,event_1_8205862'},
-   {name:'大理',id:33,first_place:'官道',path:'jh 33,sw,sw,s,s,s,nw,n,ne,e,se,n,n,n,s,s,s,nw,w,n,n,se,nw,ne,sw,s,s,sw,nw,n,n,n,n,n,s,e,n,s,s,n,e,w,w,s,s,s,s,sw,w,w,s,s,e,w,s,e,w,w,se,nw,e,jh 33,sw,sw,s,s,s,s,w,w,n,se,nw,s,s,nw,n,e,se,n,n,w,se,nw,e,e,se,nw,e,se,nw,w,w,s,s,nw,w,s,se,n,w,w,w,s,s,w,w,e,e,se,e,w,s,jh 33,sw,sw,s,s,s,s,s,w,n,n,n,n,n,s,w,e,e,w,s,s,s,s,e,e,n,se,w,e,n,w,e,e,w,n,s,s,e,e,s,n,n,n,w,e,e,w,n,ne,n,s,e,e,n,s,e,w,w,w,sw,s,s,s,e,n,s,s,n,e,ne,n,s,sw,se,ne,jh 33,sw,sw,s,s,s,s,s,s,w,w,e,e,e,n,s,s,n,e,w,w,s,e,n,s,w,s,e,n,s,s,n,w,w,s,w,e,n,n,se,n,s,ne,jh 33,sw,sw,s,s,s,s,s,s,s,s,s,e,ne,s,n,sw,w,s,w,e,se,nw,s,s,s,e,n,s,w,sw,sw,n,n,s,s,w,e,s,n,ne,ne,s,e,n,n,n,s,s,s,s,n,e,w,w,se,s,n,sw,n,s,s,n,w,jh 33,sw,sw,s,s,s,s,e,e,n,s,s,n,e,e,se,s,s,w,n,n,s,s,e,s,s,n,n,n,e,e,e,ne,sw,w,w,w,n,e,e,se,n,n,n,n,n,n,s,s,s,s,s,s,nw,e,n,n,n,s,s,s,e,e,se,e,s,ne_s,s,n,e,se,e,e,s,n,ne,e,n,s,w,sw,sw,s,s,e,e,w,s,e,w,n,n,e,n'},
-   {name:'断剑山庄',id:34,first_place:'官道',path:'jh 34,ne,e,e,e,e,e,n,e,n,n,s,s,w,n,n,n,n,w,e,n,e,w,s,s,s,w,w,w,n,n,yell,n,n,w,w,e,s,w,e,n,e,e,e,w,s,n,w,n,e,e,w,n,e,w,s,w,n,w,w,e,e,n,n,n,n,s,s,e,e,event_1_10251226jh 34,ne,e,e,e,e,e,n,e,n,n,s,s,w,n,n,n,n,w,e,n,e,w,s,s,s,w,w,w,n,n,yell,n,n,w,w,e,s,w,e,n,e,e,e,w,s,n,w,n,e,e,w,n,e,w,s,w,n,w,w,e,e,n,n,n,n,s,s,e,e,event_1_10251226'},
-   {name:'冰火岛',id:35,first_place:'冰火峡湾',path:'jh 35,nw,nw,nw,n,ne,nw,w,w,s,w,e,e,w,n,e,nw,e,e,n,nw,se,s,e,e,e,se,e,w,n,n,ne,n,s,sw,w,n,w,ne,sw,event_1_53278632,s,nw,sw,se,s,sw,sw,se,se,jh 35,nw,nw,nw,n,ne,nw,w,w,s,w,e,e,w,n,e,nw,e,e,n,nw,se,s,e,e,e,se,s,se,w,nw,s,s,s,s,s,s,e,w,w,w,n,e,n,w,w,s,s'},
-   {name:'侠客岛',id:36,first_place:'东海码头',path:'jh 36,yell,e,ne,ne,ne,e,n,n,s,w,e,s,s,w,e,e,w,n,e,n,s,e,event_1_9179222,e,w,n,e,e,s,e,w,n,e,n,e,e,ne,sw,w,w,s,n,n,n,e,ne,nw,w,jh 36,yell,e,se,e,e,e,e,w,w,w,s,s,s,s,w,e,s,n,e,s,n,ne,e,se,nw,e,n,e,n'},
-   {name:'绝情谷',id:37,first_place:'山路',path:'jh 37,n,e,e,nw,nw,w,n,nw,n,n,ne,n,nw,sw,event_1_12492702,jh 37,n,e,e,nw,nw,w,n,e,n,e,e,e,ne,ne,ne,se,ne,sw,n,ne,sw,s,s,s,s,w,w,s,n,e,e,n,n,n,nw,sw,sw,nw,w,n,ne,sw,nw,n,ne,e,ne,se,nw,sw,w,sw,nw,n,ne,e,ne,e,n,ne,sw,s,w,sw,w,n,ne,ne,sw,sw,s,sw,nw,n,nw,jh 37,n,e,e,nw,nw,w,n,e,n,e,e,e,ne,ne,ne,event_1_16813927jh 37,n,e,e,nw,nw,w,n,nw,n,n,ne,n,nw,sw,event_1_12492702,jh 37,n,e,e,nw,nw,w,n,e,n,e,e,e,ne,ne,ne,se,ne,sw,n,ne,sw,s,s,s,s,w,w,s,n,e,e,n,n,n,nw,sw,sw,nw,w,n,ne,sw,nw,n,ne,e,ne,se,nw,sw,w,sw,nw,n,ne,e,ne,e,n,ne,sw,s,w,sw,w,n,ne,ne,sw,sw,s,sw,nw,n,nw,jh 37,n,e,e,nw,nw,w,n,e,n,e,e,e,ne,ne,ne,event_1_16813927'},
-   {name:'碧海山庄',id:38,first_place:'石阶',path:'jh 38,n,n,w,w,s,w,w,e,e,n,e,e,n,n,w,w,n,e,w,w,e,s,w,e,e,e,n,n,n,w,w,nw,w,w,n,n,n,s,s,s,e,e,se,e,e,n,n,e,se,s,e,w,n,nw,w,n,n,n,n,n,n,s,s,s,s,e,e,se,se,e,n,n,n,n'},
+    {name:'慕容山庄',id:32,first_place:'回望桥',path:'jh 32,n,n,se,w,e,n,w,e,ne,sw,n,n,n,n,s,e,w,w,s,n,w,n,s,s,n,w,n,w,n,e,n,n,w,n,w,e,s,e,e,n,n,s,w,e,e,jh 32,n,n,se,n,n,n,n,w,w,w,n,event_1_72278818,event_1_35141481,w,jh 32,n,n,se,e,s,s,event_1_99232080,e,e,s,e,s,e,e,e,n,n,s,s,s,s,event_1_92057893,e,n,s,s,event_1_8205862'},
+    {name:'大理',id:33,first_place:'官道',path:'jh 33,sw,sw,s,s,s,nw,n,ne,e,se,n,n,n,s,s,s,nw,w,n,n,se,nw,ne,sw,s,s,sw,nw,n,n,n,n,n,s,e,n,s,s,n,e,w,w,s,s,s,s,sw,w,w,s,s,e,w,s,e,w,w,se,nw,e,jh 33,sw,sw,s,s,s,s,w,w,n,se,nw,s,s,nw,n,e,se,n,n,w,se,nw,e,e,se,nw,e,se,nw,w,w,s,s,nw,w,s,se,n,w,w,w,s,s,w,w,e,e,se,e,w,s,jh 33,sw,sw,s,s,s,s,s,w,n,n,n,n,n,s,w,e,e,w,s,s,s,s,e,e,n,se,w,e,n,w,e,e,w,n,s,s,e,e,s,n,n,n,w,e,e,w,n,ne,n,s,e,e,n,s,e,w,w,w,sw,s,s,s,e,n,s,s,n,e,ne,n,s,sw,se,ne,jh 33,sw,sw,s,s,s,s,s,s,w,w,e,e,e,n,s,s,n,e,w,w,s,e,n,s,w,s,e,n,s,s,n,w,w,s,w,e,n,n,se,n,s,ne,jh 33,sw,sw,s,s,s,s,s,s,s,s,s,e,ne,s,n,sw,w,s,w,e,se,nw,s,s,s,e,n,s,w,sw,sw,n,n,s,s,w,e,s,n,ne,ne,s,e,n,n,n,s,s,s,s,n,e,w,w,se,s,n,sw,n,s,s,n,w,jh 33,sw,sw,s,s,s,s,e,e,n,s,s,n,e,e,se,s,s,w,n,n,s,s,e,s,s,n,n,n,e,e,e,ne,sw,w,w,w,n,e,e,se,n,n,n,n,n,n,s,s,s,s,s,s,nw,e,n,n,n,s,s,s,e,e,se,e,s,ne_s,s,n,e,se,e,e,s,n,ne,e,n,s,w,sw,sw,s,s,e,e,w,s,e,w,n,n,e,n'},
+    {name:'断剑山庄',id:34,first_place:'官道',path:'jh 34,ne,e,e,e,e,e,n,e,n,n,s,s,w,n,n,n,n,w,e,n,e,w,s,s,s,w,w,w,n,n,yell,n,n,w,w,e,s,w,e,n,e,e,e,w,s,n,w,n,e,e,w,n,e,w,s,w,n,w,w,e,e,n,n,n,n,s,s,e,e,event_1_10251226jh 34,ne,e,e,e,e,e,n,e,n,n,s,s,w,n,n,n,n,w,e,n,e,w,s,s,s,w,w,w,n,n,yell,n,n,w,w,e,s,w,e,n,e,e,e,w,s,n,w,n,e,e,w,n,e,w,s,w,n,w,w,e,e,n,n,n,n,s,s,e,e,event_1_10251226'},
+    {name:'冰火岛',id:35,first_place:'冰火峡湾',path:'jh 35,nw,nw,nw,n,ne,nw,w,w,s,w,e,e,w,n,e,nw,e,e,n,nw,se,s,e,e,e,se,e,w,n,n,ne,n,s,sw,w,n,w,ne,sw,event_1_53278632,s,nw,sw,se,s,sw,sw,se,se,jh 35,nw,nw,nw,n,ne,nw,w,w,s,w,e,e,w,n,e,nw,e,e,n,nw,se,s,e,e,e,se,s,se,w,nw,s,s,s,s,s,s,e,w,w,w,n,e,n,w,w,s,s'},
+    {name:'侠客岛',id:36,first_place:'东海码头',path:'jh 36,yell,e,ne,ne,ne,e,n,n,s,w,e,s,s,w,e,e,w,n,e,n,s,e,event_1_9179222,e,w,n,e,e,s,e,w,n,e,n,e,e,ne,sw,w,w,s,n,n,n,e,ne,nw,w,jh 36,yell,e,se,e,e,e,e,w,w,w,s,s,s,s,w,e,s,n,e,s,n,ne,e,se,nw,e,n,e,n'},
+    {name:'绝情谷',id:37,first_place:'山路',path:'jh 37,n,e,e,nw,nw,w,n,nw,n,n,ne,n,nw,sw,event_1_12492702,jh 37,n,e,e,nw,nw,w,n,e,n,e,e,e,ne,ne,ne,se,ne,sw,n,ne,sw,s,s,s,s,w,w,s,n,e,e,n,n,n,nw,sw,sw,nw,w,n,ne,sw,nw,n,ne,e,ne,se,nw,sw,w,sw,nw,n,ne,e,ne,e,n,ne,sw,s,w,sw,w,n,ne,ne,sw,sw,s,sw,nw,n,nw,jh 37,n,e,e,nw,nw,w,n,e,n,e,e,e,ne,ne,ne,event_1_16813927jh 37,n,e,e,nw,nw,w,n,nw,n,n,ne,n,nw,sw,event_1_12492702,jh 37,n,e,e,nw,nw,w,n,e,n,e,e,e,ne,ne,ne,se,ne,sw,n,ne,sw,s,s,s,s,w,w,s,n,e,e,n,n,n,nw,sw,sw,nw,w,n,ne,sw,nw,n,ne,e,ne,se,nw,sw,w,sw,nw,n,ne,e,ne,e,n,ne,sw,s,w,sw,w,n,ne,ne,sw,sw,s,sw,nw,n,nw,jh 37,n,e,e,nw,nw,w,n,e,n,e,e,e,ne,ne,ne,event_1_16813927'},
+    {name:'碧海山庄',id:38,first_place:'石阶',path:'jh 38,n,n,w,w,s,w,w,e,e,n,e,e,n,n,w,w,n,e,w,w,e,s,w,e,e,e,n,n,n,w,w,nw,w,w,n,n,n,s,s,s,e,e,se,e,e,n,n,e,se,s,e,w,n,nw,w,n,n,n,n,n,n,s,s,s,s,e,e,se,se,e,n,n,n,n'},
     //'天山',id:39,first_place:'官道',path:'jh 39,ne,e,n,ne,ne,se,e,e,w,n,s,s,e,se,nw,w,n,w,nw,w,n,nw,se,s,e,n,ne,nw,ne,nw,event_1_17801939,ne,ne,nw,nw,nw,w,jh 39,ne,e,n,ne,ne,n,ne,nw,event_1_58460791,nw,n,ne,nw,nw,n,s,w,w,e,s,n,n,n,w,e,e,w,n,e,e,s,n,w,nw,w,ne,sw,nw,jh 39,ne,e,n,nw,nw,w,s,s,sw,n,nw,e,sw,w,s,w,n,w'},
-   {name:'天山',id:39,first_place:'官道',path:'jh 39,ne,e,n,ne,ne,se,e,e,w,n,s,s,e,se,nw,w,n,w,nw,w,n,nw,se,s,e,n,ne,nw,ne,nw,jh 39,ne,e,n,nw,nw,w,s,s,sw,n,nw,e,sw,w,s,w,n,w'},
+    {name:'天山',id:39,first_place:'官道',path:'jh 39,ne,e,n,ne,ne,se,e,e,w,n,s,s,e,se,nw,w,n,w,nw,w,n,nw,se,s,e,n,ne,nw,ne,nw,jh 39,ne,e,n,nw,nw,w,s,s,sw,n,nw,e,sw,w,s,w,n,w'},
     //'苗疆',id:40,first_place:'岸边路',path:'jh 40,s,s,s,s,w,w,w,w,e,n,s,s,sw,ne,n,se,s,n,nw,e,e,e,e,s,se,sw,s,s,s,s,sw,jh 40,s,s,s,s,e,s,se,sw,s,sw,e,e,sw,se,sw,se,0_event_1_8004914,se,s,s,e,n,n,e,s,e,ne,s,sw,e,e,ne,ne,nw,ne,ne,n,n,e,w,w,sw,ne,e,n,n,e,w,nw,ne,nw,sw,ne,se,ne,se,se,nw,nw,nw,ne,e,jh 40,s,s,s,s,e,s,se,sw,s,s,s,e,e,sw,se,sw,se,1_event_1_8004914,sw,se,event_1_41385370,e,ne,nw,e,sw,se,s,ne,e'},
-   {name:'苗疆',id:40,first_place:'岸边路',path:'jh 40,s,s,s,s,w,w,w,w,e,n,s,s,sw,ne,n,se,s,n,nw,e,e,e,e,s,se,sw,s,s,s,s,sw,jh 40,s,s,s,s,e,s,se,sw,s,sw,e,e,sw,se,sw,se'},
-   {name:'白帝城',id:41,first_place:'岸边路',path:'jh 41,se,e,e,ne,ne,se,e,n,s,e,ne,sw,se,se,nw,nw,s,w,e,e,jh 41,se,e,e,nw,nw,n,n,w,w,n,n,e,n,s,e,w,w,s,s,e,e,e,ne,s,n,e,w,n,nw,n,jh 41,se,e,e,se,se,se,se,s,s,s,e,e,ne,sw,w,w,n,n,n,se,se,event_1_57976870,e,e,e,w,ne,n,w,e,s,sw,w,w,n,n,n,ne,n,nw,se,s,sw,nw,n,s,se,s,s,s,w,w,w,n,ne'},
-   {name:'墨家机关城',id:42,first_place:'云海山谷',path:'jh 42,nw,ne,n,e,nw,e,nw,w,ne,se,n,nw,e,n,w,e,s,w,w,n,e,n,n,n,n,n,n,n,n,n,s,s,s,s,s,w,w,n,e,w,n,e,w,n,e,w,ne,w,e,n,s,sw,s,s,s,e,e,e,e,n,w,e,n,w,e,n,w,e,nw,e,w,n,s,se,s,event_1_39026213,n,ne,se,s,event_1_623818,e,n,e,s,e,n,nw,e,nw,w,w,e,e,e,w,sw,ne,n,e,w,w,e,nw,se,ne,sw,jh 42,nw,ne,n,e,nw,e,nw,w,ne,se,n,nw,e,n,w,n,n,n,n,e,e,n,n,event_1_39026213,n,ne,se,s,event_1_623818,e,s,e,s,ne,s,sw,nw,s,se,s,e,e,e,w,w,w,sw,s,s,n,se,s'},
-   {name:'掩月城',id:43,first_place:'越女玉雕',path:''},
-   {name:'海云阁',id:44,first_place:'海运镇',path:''},
-   {name:'幽冥山庄',id:45,first_place:'幽暗山路',path:''},
-   {name:'花街',id:46,first_place:'官路',path:''},
-   {name:'西凉城',id:47,first_place:'荒漠',path:''},
-   {name:'高昌迷宫',id:48,first_place:'大沙漠',path:''},
-   {name:'京城',id:49,first_place:'大沙漠',path:''},
+    {name:'苗疆',id:40,first_place:'岸边路',path:'jh 40,s,s,s,s,w,w,w,w,e,n,s,s,sw,ne,n,se,s,n,nw,e,e,e,e,s,se,sw,s,s,s,s,sw,jh 40,s,s,s,s,e,s,se,sw,s,sw,e,e,sw,se,sw,se'},
+    {name:'白帝城',id:41,first_place:'岸边路',path:'jh 41,se,e,e,ne,ne,se,e,n,s,e,ne,sw,se,se,nw,nw,s,w,e,e,jh 41,se,e,e,nw,nw,n,n,w,w,n,n,e,n,s,e,w,w,s,s,e,e,e,ne,s,n,e,w,n,nw,n,jh 41,se,e,e,se,se,se,se,s,s,s,e,e,ne,sw,w,w,n,n,n,se,se,event_1_57976870,e,e,e,w,ne,n,w,e,s,sw,w,w,n,n,n,ne,n,nw,se,s,sw,nw,n,s,se,s,s,s,w,w,w,n,ne'},
+    {name:'墨家机关城',id:42,first_place:'云海山谷',path:'jh 42,nw,ne,n,e,nw,e,nw,w,ne,se,n,nw,e,n,w,e,s,w,w,n,e,n,n,n,n,n,n,n,n,n,s,s,s,s,s,w,w,n,e,w,n,e,w,n,e,w,ne,w,e,n,s,sw,s,s,s,e,e,e,e,n,w,e,n,w,e,n,w,e,nw,e,w,n,s,se,s,event_1_39026213,n,ne,se,s,event_1_623818,e,n,e,s,e,n,nw,e,nw,w,w,e,e,e,w,sw,ne,n,e,w,w,e,nw,se,ne,sw,jh 42,nw,ne,n,e,nw,e,nw,w,ne,se,n,nw,e,n,w,n,n,n,n,e,e,n,n,event_1_39026213,n,ne,se,s,event_1_623818,e,s,e,s,ne,s,sw,nw,s,se,s,e,e,e,w,w,w,sw,s,s,n,se,s'},
+    {name:'掩月城',id:43,first_place:'越女玉雕',path:''},
+    {name:'海云阁',id:44,first_place:'海运镇',path:''},
+    {name:'幽冥山庄',id:45,first_place:'幽暗山路',path:''},
+    {name:'花街',id:46,first_place:'官路',path:''},
+    {name:'西凉城',id:47,first_place:'荒漠',path:''},
+    {name:'高昌迷宫',id:48,first_place:'大沙漠',path:''},
+    {name:'京城',id:49,first_place:'大沙漠',path:''},
 ]
 
 function travelJhData(fn){
-     places.filter((jh,index) => (fn(index,jh.id,jh.name)));
+    places.filter((jh,index) => (fn(index,jh.id,jh.name)));
 }
 
 function travelNpcData(fn){
@@ -12866,9 +13008,9 @@ function develop() {
     setStore(buxuanSkillKey, "2|步玄七诀");
     setStore("findMen_keys", "1|花不为");
     setStore(autoBattleSkillKey,autoBattleSkillKey1);
-    setStore(autoCureSkillKey,"道种心魔经,30,道种心魔经,30");
+    setStore(autoCureSkillKey,"白首太玄经,30,白首太玄经,30");
     setStore(autoBattleSkillKey1,"3,神剑慧芒");
-    setStore(autoBattleSkillKey2,"6,神剑慧芒,千影百伤棍");
+    setStore(autoBattleSkillKey2,"6,燎原百破,千影百伤棍");
     setStore(autoBattleSkillKey3,"3,千影百伤棍");
 })();
 
@@ -12882,14 +13024,9 @@ function showTip() {
     Message(
         a80_ver + "更新说明",
         "<br/>" +
-        "* 更新全图数据：1-14,16-19,21-26章<br />" +
-        "* 更新叫船<br />" +
-        "* 修复拼图不自动提交的问题<br />" +
-        "* 修复称号<br />" +
-        "* 增加格斗场门票逻辑, 详见右菜单-外传日常-格斗门票<br />" +
-        "* 更新授权模块<br />" +
         "<br/>",
         function() {
             setStore(verTip, a80_ver);
         })
 }
+
