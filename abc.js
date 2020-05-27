@@ -19,7 +19,7 @@ node.appendChild(alertCss);
 // 引用第三方插件
 var alertJs = document.createElement("script");
 alertJs.type = "text/script";
-alertJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@7.0/sweetalert2.all.min.js"
+alertJs.src = "https://cdn.jsdelivr.net/gh/liming922/mud@8.0/sweetalert2.all.min.js"
 node.appendChild(alertJs);
 
 function isDev() {
@@ -28,7 +28,7 @@ function isDev() {
 
 var ieEncode = document.createElement("script");
 ieEncode.type = "text/script";
-ieEncode.src ="https://cdn.jsdelivr.net/gh/liming922/mud@7.0/ie-encoding.min.js";
+ieEncode.src ="https://cdn.jsdelivr.net/gh/liming922/mud@8.0/ie-encoding.min.js";
 node.appendChild(ieEncode);
 
 function getBtn(name){
