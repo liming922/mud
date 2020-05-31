@@ -271,6 +271,7 @@ function MyNavigatorFunc(){
             ll_tipinfo=ll_tipinfo+llnpcList[pathindex]+'\n';
             pathindex=pathindex +1;
         }
+        
         if (pathindex>1)
         {
             var ll_targetIndex=prompt("请输入导航的目标序号：\n"+ll_tipinfo,"1");
