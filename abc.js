@@ -13010,8 +13010,8 @@ function develop() {
     setStore(autoBattleSkillKey,autoBattleSkillKey1);
     setStore(autoCureSkillKey,"白首太玄经,30,白首太玄经,30");
     setStore(autoBattleSkillKey1,"3,神剑慧芒");
-    setStore(autoBattleSkillKey2,"6,燎原百破,千影百伤棍");
-    setStore(autoBattleSkillKey3,"3,千影百伤棍");
+    setStore(autoBattleSkillKey2,"6,神剑慧芒,打狗棒法");
+    setStore(autoBattleSkillKey3,"3,打狗棒法");
 })();
 
 // 版本说明
