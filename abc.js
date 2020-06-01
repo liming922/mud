@@ -2539,7 +2539,7 @@ function doEquip(val) {
 function battleEquip() {
     var zb = getStore("battleEquip");
     if (!zb || zb.length == 0) {
-        zb = "离别钩,紫龙镇嶽枪,*破岳掌套";
+        zb = "离别钩,紫龙镇嶽枪,*驭风腾云";
     }
     Input("请输入需要补充装备的全称(物品栏)，使用英文逗号分割，物品前面带*号为入脉<br/>" +
           "例如：<空>，若不输入，执行默认装备<br/>" +
